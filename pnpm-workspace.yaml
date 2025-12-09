@@ -1,0 +1,10 @@
+onlyBuiltDependencies:
+  - '@prisma/client'
+  - '@prisma/engines'
+  - argon2
+  - cpu-features
+  - esbuild
+  - prisma
+  - sharp
+  - ssh2
+  - unrs-resolver

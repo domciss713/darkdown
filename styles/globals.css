@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-dd-bg text-dd-text antialiased;
+}
+
+.dd-gradient-bg {
+  background: radial-gradient(circle at top left, #7c3aed33, transparent 55%),
+    radial-gradient(circle at bottom right, #a78bfa33, transparent 55%),
+    #0b0b12;
+}
+
+.dd-glass {
+  @apply bg-dd-panel/60 backdrop-blur-glass border border-white/5 shadow-dd rounded-2xl;
+}

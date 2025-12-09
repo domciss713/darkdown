@@ -1,0 +1,12 @@
+name: DarkDownLink
+main: xyz.darkdown.DarkDownLinkPlugin
+version: 1.0.0
+api-version: 1.20
+commands:
+  link:
+    description: Link your Minecraft account with DarkDowN website
+    usage: /link
+    permission: darkdown.link
+permissions:
+  darkdown.link:
+    default: true
