@@ -1,14 +1,9 @@
 [build]
-  command = "pnpm install && pnpm build"
-  publish = ".next"
+command = "pnpm build"
+publish = ".next"
 
 [functions]
-  node_bundler = "esbuild"
+node_bundler = "esbuild"
 
 [[plugins]]
-  package = "@netlify/next"
-
-[dev]
-  command = "next dev"
-  port = 3000
-  targetPort = 3000
+package = "@netlify/plugin-nextjs"
