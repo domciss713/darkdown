@@ -14,11 +14,15 @@ async function getTickets(userId: string) {
   });
 }
 
+type Tickets = Awaited<ReturnType<typeof getTickets>>;
+type TicketItem = Tickets[number];
+
 export default async function TicketsPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user) redirect("/login");
+
   const userId = (session.user as any).id as string;
-  const tickets = await getTickets(userId);
+  const tickets: TicketItem[] = await getTickets(userId);
 
   return (
     <div className="space-y-6">
@@ -32,7 +36,7 @@ export default async function TicketsPage() {
             </p>
           ) : (
             <div className="space-y-3">
-              {tickets.map((t) => (
+              {tickets.map((t: TicketItem) => (
                 <Link key={t.id} href={`/tickets/${t.id}`}>
                   <div className="rounded-xl border border-white/10 bg-black/30 p-3 hover:border-dd-accent/60 transition-colors">
                     <div className="flex items-center justify-between">
@@ -58,6 +62,7 @@ export default async function TicketsPage() {
             </div>
           )}
         </Card>
+
         <Card>
           <h2 className="text-xl font-semibold mb-3">New ticket</h2>
           <TicketForm />

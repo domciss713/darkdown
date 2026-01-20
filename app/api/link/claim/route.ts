@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { linkClaimSchema } from "@/lib/validation";
-import { resolveCode } from "../request/route";
+import { resolveCode } from "@/lib/link-code";
 
 export async function POST(req: Request) {
   const json = await req.json();
@@ -10,23 +10,16 @@ export async function POST(req: Request) {
     return new NextResponse(parsed.error.message, { status: 400 });
   }
 
-  const userId = resolveCode(parsed.data.code);
+  const userId = await resolveCode(parsed.data.code);
   if (!userId) {
     return new NextResponse("Invalid or expired code", { status: 400 });
   }
 
   await prisma.playerLink.upsert({
-    where: { userId },
-    create: {
-      userId,
-      uuid: parsed.data.uuid,
-      name: parsed.data.name
-    },
-    update: {
-      uuid: parsed.data.uuid,
-      name: parsed.data.name
-    }
-  });
+  where: { userId },
+  create: { userId, uuid: parsed.data.uuid, name: parsed.data.name },
+  update: { uuid: parsed.data.uuid, name: parsed.data.name }
+});
 
   await prisma.user.update({
     where: { id: userId },

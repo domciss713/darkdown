@@ -1,20 +1,25 @@
-import { Role } from "@prisma/client";
 import type { Session } from "next-auth";
 
-export function hasRole(session: Session | null, role: Role): boolean {
-  if (!session?.user) return false;
-  const r = (session.user as any).role as Role | undefined;
-  if (!r) return false;
-  if (role === "USER") return true;
-  if (role === "STAFF") return r === "STAFF" || r === "ADMIN";
-  if (role === "ADMIN") return r === "ADMIN";
-  return false;
+export type AppRole = "USER" | "STAFF" | "ADMIN";
+
+export function getRole(session: Session | null): AppRole {
+  const r = (session?.user as any)?.role;
+  if (r === "ADMIN" || r === "STAFF" || r === "USER") return r;
+  return "USER";
 }
 
-export function requireRole(session: Session | null, role: Role) {
-  if (!hasRole(session, role)) {
-    const err: any = new Error("Forbidden");
-    err.status = 403;
-    throw err;
-  }
+export function hasRole(session: Session | null, role: AppRole): boolean {
+  const current = getRole(session);
+
+  if (role === "USER") return true;
+  if (role === "STAFF") return current === "STAFF" || current === "ADMIN";
+  return current === "ADMIN";
+}
+
+export function requireStaff(session: Session | null): boolean {
+  return hasRole(session, "STAFF");
+}
+
+export function requireAdmin(session: Session | null): boolean {
+  return hasRole(session, "ADMIN");
 }

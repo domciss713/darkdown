@@ -13,15 +13,19 @@ async function getAllTickets() {
   });
 }
 
+type Tickets = Awaited<ReturnType<typeof getAllTickets>>;
+type TicketWithAuthor = Tickets[number];
+
 export default async function AdminPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user) redirect("/login");
+
   const role = (session.user as any).role as string;
   if (role !== "ADMIN" && role !== "STAFF") {
     redirect("/");
   }
 
-  const tickets = await getAllTickets();
+  const tickets: TicketWithAuthor[] = await getAllTickets();
 
   return (
     <div className="space-y-6">

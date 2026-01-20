@@ -6,21 +6,25 @@ import { ticketReplySchema } from "@/lib/validation";
 
 export async function POST(
   req: Request,
-  ctx: { params: { id: string } }
+  ctx: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await ctx.params;
+
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
+
   const json = await req.json();
   const parsed = ticketReplySchema.safeParse(json);
   if (!parsed.success) {
     return new NextResponse(parsed.error.message, { status: 400 });
   }
+
   const userId = (session.user as any).id as string;
 
   const ticket = await prisma.ticket.findUnique({
-    where: { id: ctx.params.id }
+    where: { id }
   });
   if (!ticket) return new NextResponse("Not found", { status: 404 });
 

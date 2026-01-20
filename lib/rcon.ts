@@ -1,13 +1,16 @@
 import { Rcon } from "rcon-client";
 
-const allowed = (process.env.RCON_ALLOWED ?? "")
-  .split(",")
-  .map((s) => s.trim())
-  .filter(Boolean);
+function getAllowed(): string[] {
+  return (process.env.RCON_ALLOWED ?? "")
+    .split(",")
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+}
 
 export function isAllowedRconCommand(cmd: string): boolean {
-  const base = cmd.split(" ")[0];
-  return allowed.includes(base);
+  const base = cmd.trim().split(/\s+/)[0]?.toLowerCase();
+  if (!base) return false;
+  return getAllowed().includes(base);
 }
 
 export async function sendRconCommand(command: string) {
@@ -16,6 +19,7 @@ export async function sendRconCommand(command: string) {
     err.status = 400;
     throw err;
   }
+
   const client = await Rcon.connect({
     host: process.env.RCON_HOST!,
     port: Number(process.env.RCON_PORT ?? "25575"),
@@ -24,10 +28,12 @@ export async function sendRconCommand(command: string) {
 
   try {
     const res = await client.send(command);
-    await client.end();
     return res;
-  } catch (e) {
-    await client.end();
-    throw e;
+  } finally {
+    try {
+      await client.end();
+    } catch {
+      // ignore
+    }
   }
 }

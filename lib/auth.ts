@@ -1,8 +1,8 @@
-import NextAuth, { type NextAuthOptions } from "next-auth";
+// lib/auth.ts
+import type { NextAuthOptions } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "./prisma";
-import { Role } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -16,18 +16,11 @@ export const authOptions: NextAuthOptions = {
     async session({ session, user }) {
       if (session.user) {
         (session.user as any).id = user.id;
-        (session.user as any).role = user.role ?? Role.USER;
-        (session.user as any).minecraftNick = user.minecraftNick ?? null;
+        (session.user as any).role = (user as any).role ?? "USER";
+        (session.user as any).minecraftNick = (user as any).minecraftNick ?? null;
       }
       return session;
     }
   },
-  session: {
-    strategy: "database"
-  }
+  session: { strategy: "database" }
 };
-
-export const {
-  handlers: { GET, POST },
-  auth
-} = NextAuth(authOptions);

@@ -34,19 +34,20 @@ enum TicketPriority {
 }
 
 model User {
-  id            String        @id @default(cuid())
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id            String      @id @default(cuid())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   name          String?
-  email         String?       @unique
+  email         String?     @unique
   image         String?
-  role          Role          @default(USER)
-  discordId     String?       @unique
+  role          Role        @default(USER)
+  discordId     String?     @unique
   minecraftNick String?
-  tickets       Ticket[]
+  tickets       Ticket[]    @relation("UserTickets")
   playerLink    PlayerLink?
   accounts      Account[]
   sessions      Session[]
+  messages      Message[]   @relation("UserMessages")
 }
 
 model PlayerLink {
@@ -66,7 +67,7 @@ model Ticket {
   status      TicketStatus    @default(open)
   priority    TicketPriority  @default(normal)
   authorId    String
-  author      User            @relation(fields: [authorId], references: [id])
+  author      User            @relation("UserTickets", fields: [authorId], references: [id])
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   messages    Message[]
@@ -79,35 +80,35 @@ model Message {
   ticketId  String
   ticket    Ticket   @relation(fields: [ticketId], references: [id])
   authorId  String
-  author    User     @relation(fields: [authorId], references: [id])
+  author    User     @relation("UserMessages", fields: [authorId], references: [id])
   body      String
   byStaff   Boolean  @default(false)
   createdAt DateTime @default(now())
 }
 
 model Attachment {
-  id          String   @id @default(cuid())
-  ticketId    String
-  ticket      Ticket   @relation(fields: [ticketId], references: [id])
-  name        String
-  storageKey  String
-  bytes       Int
-  createdAt   DateTime @default(now())
+  id         String   @id @default(cuid())
+  ticketId   String
+  ticket     Ticket   @relation(fields: [ticketId], references: [id])
+  name       String
+  storageKey String
+  bytes      Int
+  createdAt  DateTime @default(now())
 }
 
 model ServerSnapshot {
-  id        String   @id @default(cuid())
-  takenAt   DateTime @default(now())
-  online    Boolean
-  players   Int
-  list      String?
-  tps       Float?
-  mspt      Float?
-  ticketId  String?  @unique
-  ticket    Ticket?  @relation(fields: [ticketId], references: [id])
+  id       String   @id @default(cuid())
+  takenAt  DateTime @default(now())
+  online   Boolean
+  players  Int
+  list     String?
+  tps      Float?
+  mspt     Float?
+  ticketId String?  @unique
+  ticket   Ticket?  @relation(fields: [ticketId], references: [id])
 }
 
-/* NextAuth models */
+// NextAuth models
 
 model Account {
   id                String  @id @default(cuid())
@@ -143,4 +144,11 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model LinkCode {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  userId    String
+  createdAt DateTime @default(now())
 }

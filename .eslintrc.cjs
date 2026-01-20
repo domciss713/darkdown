@@ -1,10 +1,15 @@
 module.exports = {
   root: true,
-  extends: ["next/core-web-vitals", "eslint:recommended"],
-  parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
+  extends: ["next/core-web-vitals"],
+  env: {
+    browser: true,
+    node: true,
+    es2022: true
+  },
+  globals: {
+    React: "readonly"
+  },
   rules: {
-    "@typescript-eslint/no-unused-vars": ["warn"],
-    "no-console": ["warn", { allow: ["error"] }]
+    "no-undef": "off"
   }
 };

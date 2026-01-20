@@ -23,15 +23,22 @@ async function getTicket(id: string, userId: string) {
   return t;
 }
 
+type TicketResult = Awaited<ReturnType<typeof getTicket>>;
+type TicketNonNull = NonNullable<TicketResult>;
+type TicketMessage = TicketNonNull["messages"][number];
+
 export default async function TicketDetailPage({
   params
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
+
   const session = await getServerSession(authOptions);
   if (!session?.user) redirect("/login");
+
   const userId = (session.user as any).id as string;
-  const ticket = await getTicket(params.id, userId);
+  const ticket = await getTicket(id, userId);
   if (!ticket) notFound();
 
   return (
@@ -55,11 +62,12 @@ export default async function TicketDetailPage({
           {ticket.status}
         </Badge>
       </div>
+
       <div className="grid gap-4 md:grid-cols-[2fr,1.3fr]">
         <Card>
           <h2 className="text-sm font-semibold mb-2">Thread</h2>
           <div className="space-y-3 text-sm">
-            {ticket.messages.map((m) => (
+            {ticket.messages.map((m: TicketMessage) => (
               <div
                 key={m.id}
                 className="rounded-xl bg-black/30 border border-white/5 p-3"
@@ -76,25 +84,23 @@ export default async function TicketDetailPage({
               </div>
             ))}
           </div>
+
           <div className="mt-4">
             <TicketReplyForm ticketId={ticket.id} />
           </div>
         </Card>
+
         <Card>
           <h2 className="text-sm font-semibold mb-2">Server snapshot</h2>
           {ticket.snapshot ? (
             <div className="text-sm text-dd-muted space-y-1">
-              <p>
-                Taken at {ticket.snapshot.takenAt.toLocaleString()}
-              </p>
+              <p>Taken at {ticket.snapshot.takenAt.toLocaleString()}</p>
               <p>
                 Online {ticket.snapshot.online ? "yes" : "no"} · players{" "}
                 {ticket.snapshot.players}
               </p>
               {ticket.snapshot.list && (
-                <p className="text-xs">
-                  Players {ticket.snapshot.list}
-                </p>
+                <p className="text-xs">Players {ticket.snapshot.list}</p>
               )}
               {typeof ticket.snapshot.tps === "number" && (
                 <p className="text-xs">TPS {ticket.snapshot.tps}</p>
