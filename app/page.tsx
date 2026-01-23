@@ -9,17 +9,19 @@ export default function HomePage() {
     <div className="grid gap-8 md:grid-cols-2 items-center">
       <div className="space-y-6">
         <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">
-          Welcome to DarkDowN
+          Vítejte na serveru DarkDowN
         </h1>
         <p className="text-dd-muted text-sm md:text-base">
-          Premium purple survival experience. Tickets, bans, VIP and
-          support fully integrated with your Minecraft account and
-          Discord login.
+          Prémiové zážitky ze survivalu. Pojďte si s námi užít nové techniky a příběhy
+          v Minecraftu. Užijte si jedinečný herní svět s naší skvělou komunitou.
+          Máme k dispozici aktivní tým podpory, který vám pomůže s čímkoliv budete potřebovat.
+          Můžete se těšit na časté updaty, nové eventy a funkce.
+          Zakoupením jakéhokoliv VIP získáte výhody a podpoříte vývoj serveru.
         </p>
         <div className="flex flex-wrap gap-3">
           <CopyIp />
           <Link href="/play">
-            <Button variant="ghost">How to join</Button>
+            <Button variant="ghost">Jak se připojit</Button>
           </Link>
         </div>
          {/* <ServerStatus/>*/}
@@ -27,38 +29,38 @@ export default function HomePage() {
       <Card className="h-full flex flex-col justify-between">
         <div className="space-y-3">
           <p className="text-sm text-dd-muted uppercase tracking-wide">
-            Quick actions
+            Rychlé akce
           </p>
           <div className="grid gap-3 md:grid-cols-2">
             <Link href="/tickets">
               <div className="cursor-pointer rounded-2xl bg-black/30 border border-white/5 p-4 hover:border-dd-accent/60 transition-colors">
-                <p className="font-medium">Create ticket</p>
+                <p className="font-medium">Vytvořit ticket</p>
                 <p className="text-xs text-dd-muted">
-                  Technical issues, VIP problems, bug reports
+                  Jakékoliv problémy či dotazy, reporty, návrhy
                 </p>
               </div>
             </Link>
             <Link href="/appeals">
               <div className="cursor-pointer rounded-2xl bg-black/30 border border-white/5 p-4 hover:border-dd-accent/60 transition-colors">
-                <p className="font-medium">Ban appeal</p>
+                <p className="font-medium">Žádost o unban</p>
                 <p className="text-xs text-dd-muted">
-                  Appeal your punishment
+                  Nespravedlivý ban? Požádej o jeho zrušení
                 </p>
               </div>
             </Link>
             <Link href="/store">
               <div className="cursor-pointer rounded-2xl bg-black/30 border border-white/5 p-4 hover:border-dd-accent/60 transition-colors">
-                <p className="font-medium">Store</p>
+                <p className="font-medium">Obchod</p>
                 <p className="text-xs text-dd-muted">
-                  Coming soon, fully integrated Stripe store
+                  Již brzy, plně integrovaný obchod přes Stripe
                 </p>
               </div>
             </Link>
             <Link href="/map">
               <div className="cursor-pointer rounded-2xl bg-black/30 border border-white/5 p-4 hover:border-dd-accent/60 transition-colors">
-                <p className="font-medium">Online map</p>
+                <p className="font-medium">Dynmapa</p>
                 <p className="text-xs text-dd-muted">
-                  Explore the world via Dynmap
+                  Prozkoumej svět pomocí dynmapy
                 </p>
               </div>
             </Link>
