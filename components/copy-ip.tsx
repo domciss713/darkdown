@@ -20,7 +20,7 @@ export function CopyIp() {
 
   return (
     <Button onClick={handleClick}>
-      {copied ? "Copied" : `Copy IP: ${IP}`}
+      {copied ? "Copied" : `Copy IP`}
     </Button>
   );
 }
