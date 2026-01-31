@@ -51,7 +51,7 @@ export function LayoutShell({ children }: { children: ReactNode }) {
         <div className="mx-auto max-w-6xl px-4 py-4 text-xs text-dd-muted flex justify-between">
           <span>DarkDowN © {new Date().getFullYear()}</span>
           <span>
-            Čistě nekomerční projekt , nespolupracujeme s Mojang ani Microsoftem.
+            Čistě nekomerční projekt, nespolupracujeme s Mojang ani Microsoftem.
           </span>
         </div>
       </footer>
