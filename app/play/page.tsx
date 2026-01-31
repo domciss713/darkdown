@@ -4,19 +4,21 @@ import { CopyIp } from "@/components/copy-ip";
 export default function PlayPage() {
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-semibold">Play DarkDowN</h1>
+      <h1 className="text-3xl font-semibold">Jak se připojit?</h1>
       <Card>
         <h2 className="text-xl font-semibold mb-2">Server IP</h2>
         <p className="text-sm text-dd-muted mb-3">
-          Add this server in your Minecraft client and join.
+          Zkopírujte IP adresu serveru a přijďte si zahrát.
         </p>
         <CopyIp />
       </Card>
       <Card>
-        <h2 className="text-xl font-semibold mb-2">Supported versions</h2>
+        <h2 className="text-xl font-semibold mb-2">Podporované verze</h2>
         <p className="text-sm text-dd-muted">
-          Java Edition 1.20.x recommended. Other modern versions may
-          work but are not guaranteed.
+          Doporučené verze Java 1.9 - 1.20.x. Jiné moderní verze mohou fungovat, ale nejsou zaručeny.
+        </p>
+        <p className="text-sm text-dd-muted">
+          V budoucnu plánujeme podporu Bedrock edice.
         </p>
       </Card>
     </div>

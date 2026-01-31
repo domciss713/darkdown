@@ -4,7 +4,7 @@ import { LayoutShell } from "@/components/layout-shell";
 
 export const metadata = {
   title: "DarkDowN",
-  description: "Purple themed Minecraft server platform"
+  description: "DarkDowN server platforma"
 };
 
 export default function RootLayout({
