@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 
 const staff = [
-  { name: "Domiprd", role: "Owner", discord: "@domiprdiik" },
+  { name: "Domiprd", role: "Owner", discord: "@domiprdiik", avatar: <img src="https://visage.surgeplay.com/bust/100/af7dae6977234a5db78f2386fe6a6111"></img> },
   { name: "LukasRandom", role: "Admin", discord: "@cocacolaguy" }
 ];
 
@@ -12,7 +12,7 @@ export default function StaffPage() {
       <div className="grid gap-4 md:grid-cols-3">
         {staff.map((m) => (
           <Card key={m.name}>
-            <img src="https://visage.surgeplay.com/bust/100/af7dae6977234a5db78f2386fe6a6111"></img>
+            <p>{m.avatar}</p>
             <p className="font-semibold">{m.name}</p>
             <p className="text-sm text-dd-muted">{m.role}</p>
             <p className="text-xs text-dd-muted mt-2">
