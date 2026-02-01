@@ -11,6 +11,31 @@ const helpers = [
   { name: "Helper3", role: "Helper", discord: "@helper3", avatar: <img src="https://visage.surgeplay.com/bust/100/Herobrine"></img> }
 ];
 
+const builders = [
+  { name: "Builder1", role: "Builder", discord: "@builder1", avatar: <img src="https://visage.surgeplay.com/bust/100/Builder1"></img> },
+  { name: "Builder2", role: "Builder", discord: "@builder2", avatar: <img src="https://visage.surgeplay.com/bust/100/Builder2"></img> }
+];
+
+const developers = [
+  { name: "Dev1", role: "Developer", discord: "@dev1", avatar: <img src="https://visage.surgeplay.com/bust/100/Dev1"></img> },
+  { name: "Dev2", role: "Developer", discord: "@dev2", avatar: <img src="https://visage.surgeplay.com/bust/100/Dev2"></img> }
+];
+
+const eventers = [
+  { name: "Eventer1", role: "Eventer", discord: "@eventer1", avatar: <img src="https://visage.surgeplay.com/bust/100/Eventer1"></img> },
+  { name: "Eventer2", role: "Eventer", discord: "@eventer2", avatar: <img src="https://visage.surgeplay.com/bust/100/Eventer2"></img> }
+];
+
+const technicians = [
+  { name: "Tech1", role: "Technician", discord: "@tech1", avatar: <img src="https://visage.surgeplay.com/bust/100/Tech1"></img> },
+  { name: "Tech2", role: "Technician", discord: "@tech2", avatar: <img src="https://visage.surgeplay.com/bust/100/Tech2"></img> }
+];
+
+const youtubers = [
+  { name: "Youtuber1", role: "Youtuber", discord: "@youtuber1", avatar: <img src="https://visage.surgeplay.com/bust/100/Youtuber1"></img> },
+  { name: "Youtuber2", role: "Youtuber", discord: "@youtuber2", avatar: <img src="https://visage.surgeplay.com/bust/100/Youtuber2"></img> }
+];
+
 export default function StaffPage() {
   return (
     <div className="space-y-6">
