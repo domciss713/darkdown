@@ -1,14 +1,14 @@
 import { Card } from "@/components/ui/card";
 
 const staff = [
-  { name: "Owner", role: "Owner", discord: "@owner" },
-  { name: "Admin", role: "Admin", discord: "@admin" }
+  { name: "Domiprd", role: "Owner", discord: "@domiprdiik" },
+  { name: "LukasRandom", role: "Admin", discord: "@cocacolaguy" }
 ];
 
 export default function StaffPage() {
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-semibold">Staff team</h1>
+      <h2 className="text-3xl font-semibold">Vedení serveru</h2>
       <div className="grid gap-4 md:grid-cols-3">
         {staff.map((m) => (
           <Card key={m.name}>
