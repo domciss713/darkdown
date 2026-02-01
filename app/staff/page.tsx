@@ -66,6 +66,77 @@ export default function StaffPage() {
           </Card>
         ))}
       </div>
+
+      <h2 className="text-3xl font-semibold">Builder tým</h2>
+      <div className="grid gap-4 md:grid-cols-3">
+        {builders.map((m) => (
+          <Card key={m.name}>
+            <p>{m.avatar}</p>
+            <p className="font-semibold">{m.name}</p>
+            <p className="text-sm text-dd-muted">{m.role}</p>
+            <p className="text-xs text-dd-muted mt-2">
+              Discord {m.discord}
+            </p>
+          </Card>
+        ))}
+      </div>
+
+      <h2 className="text-3xl font-semibold">Developer tým</h2>
+      <div className="grid gap-4 md:grid-cols-3">
+        {developers.map((m) => (
+          <Card key={m.name}>
+            <p>{m.avatar}</p>
+            <p className="font-semibold">{m.name}</p>
+            <p className="text-sm text-dd-muted">{m.role}</p>
+            <p className="text-xs text-dd-muted mt-2">
+              Discord {m.discord}
+            </p>
+          </Card>
+        ))}
+      </div>
+
+      <h2 className="text-3xl font-semibold">Eventer tým</h2>
+      <div className="grid gap-4 md:grid-cols-3">
+        {eventers.map((m) => (
+          <Card key={m.name}>
+            <p>{m.avatar}</p>
+            <p className="font-semibold">{m.name}</p>
+            <p className="text-sm text-dd-muted">{m.role}</p>
+            <p className="text-xs text-dd-muted mt-2">
+              Discord {m.discord}
+            </p>
+          </Card>
+        ))}
+      </div>
+
+      <h2 className="text-3xl font-semibold">Technik tým</h2>
+      <div className="grid gap-4 md:grid-cols-3">
+        {technicians.map((m) => (
+          <Card key={m.name}>
+            <p>{m.avatar}</p>
+            <p className="font-semibold">{m.name}</p>
+            <p className="text-sm text-dd-muted">{m.role}</p>
+            <p className="text-xs text-dd-muted mt-2">
+              Discord {m.discord}
+            </p>
+          </Card>
+        ))}
+      </div>
+
+      <h2 className="text-3xl font-semibold">Youtuber tým</h2>
+      <div className="grid gap-4 md:grid-cols-3">
+        {youtubers.map((m) => (
+          <Card key={m.name}>
+            <p>{m.avatar}</p>
+            <p className="font-semibold">{m.name}</p>
+            <p className="text-sm text-dd-muted">{m.role}</p>
+            <p className="text-xs text-dd-muted mt-2">
+              Discord {m.discord}
+            </p>
+          </Card>
+        ))}
+      </div>
+
     </div>
   );
 }
