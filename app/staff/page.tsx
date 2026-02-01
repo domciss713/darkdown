@@ -33,8 +33,7 @@ const technicians = [
 ];
 
 const youtubers = [
-  { name: "Youtuber1", role: "Youtuber", discord: "@youtuber1", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> },
-  { name: "Youtuber2", role: "Youtuber", discord: "@youtuber2", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> }
+  { name: "Youtuber1", role: "Youtuber", discord: "@youtuber1", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> }
 ];
 
 export default function StaffPage() {
@@ -65,84 +64,132 @@ export default function StaffPage() {
       <h2 className="text-3xl font-semibold">Helper tým</h2>
       <div className="grid gap-4 md:grid-cols-3">
         {helpers.map((m) => (
-          <Card key={m.name}>
-            <p>{m.avatar}</p>
-            <p className="font-semibold">{m.name}</p>
+          <Card 
+            key={m.name}
+            className="flex items-center justify-between p-6"
+          >
+            <div className="flex flex-col gap-1">
+            <p className="text-lg font-semibold">{m.name}</p>
             <p className="text-sm text-dd-muted">{m.role}</p>
             <p className="text-xs text-dd-muted mt-2">
-              Discord {m.discord}
+               Discord {m.discord}
             </p>
-          </Card>
+            </div>
+
+            <div className="ml-4">
+                {m.avatar}
+            </div>
+            </Card>
         ))}
       </div>
 
       <h2 className="text-3xl font-semibold">Builder tým</h2>
       <div className="grid gap-4 md:grid-cols-3">
         {builders.map((m) => (
-          <Card key={m.name}>
-            <p>{m.avatar}</p>
-            <p className="font-semibold">{m.name}</p>
+          <Card 
+            key={m.name}
+            className="flex items-center justify-between p-6"
+          >
+            <div className="flex flex-col gap-1">
+            <p className="text-lg font-semibold">{m.name}</p>
             <p className="text-sm text-dd-muted">{m.role}</p>
             <p className="text-xs text-dd-muted mt-2">
-              Discord {m.discord}
+               Discord {m.discord}
             </p>
-          </Card>
+            </div>
+
+            <div className="ml-4">
+                {m.avatar}
+            </div>
+            </Card>
         ))}
       </div>
 
       <h2 className="text-3xl font-semibold">Developer tým</h2>
       <div className="grid gap-4 md:grid-cols-3">
         {developers.map((m) => (
-          <Card key={m.name}>
-            <p>{m.avatar}</p>
-            <p className="font-semibold">{m.name}</p>
+          <Card 
+            key={m.name}
+            className="flex items-center justify-between p-6"
+          >
+            <div className="flex flex-col gap-1">
+            <p className="text-lg font-semibold">{m.name}</p>
             <p className="text-sm text-dd-muted">{m.role}</p>
             <p className="text-xs text-dd-muted mt-2">
-              Discord {m.discord}
+               Discord {m.discord}
             </p>
-          </Card>
+            </div>
+
+            <div className="ml-4">
+                {m.avatar}
+            </div>
+            </Card>
         ))}
       </div>
 
       <h2 className="text-3xl font-semibold">Eventer tým</h2>
       <div className="grid gap-4 md:grid-cols-3">
         {eventers.map((m) => (
-          <Card key={m.name}>
-            <p>{m.avatar}</p>
-            <p className="font-semibold">{m.name}</p>
+          <Card 
+            key={m.name}
+            className="flex items-center justify-between p-6"
+          >
+            <div className="flex flex-col gap-1">
+            <p className="text-lg font-semibold">{m.name}</p>
             <p className="text-sm text-dd-muted">{m.role}</p>
             <p className="text-xs text-dd-muted mt-2">
-              Discord {m.discord}
+               Discord {m.discord}
             </p>
-          </Card>
+            </div>
+
+            <div className="ml-4">
+                {m.avatar}
+            </div>
+            </Card>
         ))}
       </div>
 
       <h2 className="text-3xl font-semibold">Technik tým</h2>
       <div className="grid gap-4 md:grid-cols-3">
         {technicians.map((m) => (
-          <Card key={m.name}>
-            <p>{m.avatar}</p>
-            <p className="font-semibold">{m.name}</p>
+          <Card 
+            key={m.name}
+            className="flex items-center justify-between p-6"
+          >
+            <div className="flex flex-col gap-1">
+            <p className="text-lg font-semibold">{m.name}</p>
             <p className="text-sm text-dd-muted">{m.role}</p>
             <p className="text-xs text-dd-muted mt-2">
-              Discord {m.discord}
+               Discord {m.discord}
             </p>
-          </Card>
+            </div>
+
+            <div className="ml-4">
+                {m.avatar}
+            </div>
+            </Card>
         ))}
       </div>
 
       <h2 className="text-3xl font-semibold">Youtuber tým</h2>
       <div className="grid gap-4 md:grid-cols-3">
         {youtubers.map((m) => (
-          <Card key={m.name}>
-            <p>{m.avatar}</p>
-            <p className="font-semibold">{m.name}</p>
+          <Card 
+            key={m.name}
+            className="flex items-center justify-between p-6"
+          >
+            <div className="flex flex-col gap-1">
+            <p className="text-lg font-semibold">{m.name}</p>
             <p className="text-sm text-dd-muted">{m.role}</p>
             <p className="text-xs text-dd-muted mt-2">
-              Discord {m.discord}
+               Discord {m.discord}
             </p>
-          </Card>
+            </div>
+
+            <div className="ml-4">
+                {m.avatar}
+            </div>
+            </Card>
         ))}
       </div>
 
