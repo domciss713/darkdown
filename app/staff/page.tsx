@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 const staff = [
   { name: "Domiprd", role: "Owner", discord: "@domiprdiik", avatar: <img src="https://visage.surgeplay.com/bust/100/Domiprd"/> },
   { name: "LukasRandom", role: "Admin", discord: "@cocacolaguy", avatar: <img src="https://visage.surgeplay.com/bust/100/Steve"/> },
-  { name: "AllwEx_99", role: "Co-Owner", discord: "@allw3x", avatar: <img src="https://visage.surgeplay.com/bust/100/0fabb0f337484fa8"/> }
+  { name: "AllwEx_99", role: "Co-Owner", discord: "@allw3x", avatar: <img src="https://visage.surgeplay.com/bust/100/38306024-e641-4371-80b7-8fdd10c7a6db"/> }
 ];
 
 const helpers = [
