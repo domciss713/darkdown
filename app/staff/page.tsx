@@ -7,33 +7,33 @@ const staff = [
 
 const helpers = [
   { name: "Helper1", role: "Helper", discord: "@helper1", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> },
-  { name: "Helper2", role: "Helper", discord: "@helper2", avatar: <img src="https://visage.surgeplay.com/bust/100/Notch"></img> },
-  { name: "Helper3", role: "Helper", discord: "@helper3", avatar: <img src="https://visage.surgeplay.com/bust/100/Herobrine"></img> }
+  { name: "Helper2", role: "Helper", discord: "@helper2", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> },
+  { name: "Helper3", role: "Helper", discord: "@helper3", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> }
 ];
 
 const builders = [
-  { name: "Builder1", role: "Builder", discord: "@builder1", avatar: <img src="https://visage.surgeplay.com/bust/100/Builder1"></img> },
-  { name: "Builder2", role: "Builder", discord: "@builder2", avatar: <img src="https://visage.surgeplay.com/bust/100/Builder2"></img> }
+  { name: "Builder1", role: "Builder", discord: "@builder1", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> },
+  { name: "Builder2", role: "Builder", discord: "@builder2", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> }
 ];
 
 const developers = [
-  { name: "Dev1", role: "Developer", discord: "@dev1", avatar: <img src="https://visage.surgeplay.com/bust/100/Dev1"></img> },
-  { name: "Dev2", role: "Developer", discord: "@dev2", avatar: <img src="https://visage.surgeplay.com/bust/100/Dev2"></img> }
+  { name: "Dev1", role: "Developer", discord: "@dev1", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> },
+  { name: "Dev2", role: "Developer", discord: "@dev2", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> }
 ];
 
 const eventers = [
-  { name: "Eventer1", role: "Eventer", discord: "@eventer1", avatar: <img src="https://visage.surgeplay.com/bust/100/Eventer1"></img> },
-  { name: "Eventer2", role: "Eventer", discord: "@eventer2", avatar: <img src="https://visage.surgeplay.com/bust/100/Eventer2"></img> }
+  { name: "Eventer1", role: "Eventer", discord: "@eventer1", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> },
+  { name: "Eventer2", role: "Eventer", discord: "@eventer2", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> }
 ];
 
 const technicians = [
-  { name: "Tech1", role: "Technician", discord: "@tech1", avatar: <img src="https://visage.surgeplay.com/bust/100/Tech1"></img> },
-  { name: "Tech2", role: "Technician", discord: "@tech2", avatar: <img src="https://visage.surgeplay.com/bust/100/Tech2"></img> }
+  { name: "Tech1", role: "Technician", discord: "@tech1", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> },
+  { name: "Tech2", role: "Technician", discord: "@tech2", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> }
 ];
 
 const youtubers = [
-  { name: "Youtuber1", role: "Youtuber", discord: "@youtuber1", avatar: <img src="https://visage.surgeplay.com/bust/100/Youtuber1"></img> },
-  { name: "Youtuber2", role: "Youtuber", discord: "@youtuber2", avatar: <img src="https://visage.surgeplay.com/bust/100/Youtuber2"></img> }
+  { name: "Youtuber1", role: "Youtuber", discord: "@youtuber1", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> },
+  { name: "Youtuber2", role: "Youtuber", discord: "@youtuber2", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> }
 ];
 
 export default function StaffPage() {
