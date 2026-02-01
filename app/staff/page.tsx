@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 
 const staff = [
   { name: "Domiprd", role: "Owner", discord: "@domiprdiik", avatar: <img src="https://visage.surgeplay.com/bust/100/Domiprd"/> },
-  { name: "LukasRandom", role: "Admin", discord: "@cocacolaguy", avatar: <img src="https://visage.surgeplay.com/bust/100/Steve"></img> }
+  { name: "LukasRandom", role: "Admin", discord: "@cocacolaguy", avatar: <img src="https://visage.surgeplay.com/bust/100/Steve"/> }
 ];
 
 const helpers = [
@@ -42,14 +42,22 @@ export default function StaffPage() {
       <h2 className="text-3xl font-semibold">Vedení serveru</h2>
       <div className="grid gap-4 md:grid-cols-3">
         {staff.map((m) => (
-          <Card key={m.name}>
-            <p>{m.avatar}</p>
-            <p className="font-semibold">{m.name}</p>
+          <Card 
+            key={m.name}
+            className="flex items-center justify-between p-6"
+          >
+            <div className="flex flex-col gap-1">
+            <p className="text-lg font-semibold">{m.name}</p>
             <p className="text-sm text-dd-muted">{m.role}</p>
             <p className="text-xs text-dd-muted mt-2">
-              Discord {m.discord}
+               Discord {m.discord}
             </p>
-          </Card>
+            </div>
+
+            <div className="ml-4">
+                {m.avatar}
+            </div>
+            </Card>
         ))}
       </div>
       
