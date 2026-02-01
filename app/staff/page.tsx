@@ -1,8 +1,8 @@
 import { Card } from "@/components/ui/card";
 
 const staff = [
-  { name: "Domiprd", role: "Owner", discord: "@domiprdiik", avatar: <img src="https://visage.surgeplay.com/bust/100/af7dae6977234a5db78f2386fe6a6111"></img> },
-  { name: "LukasRandom", role: "Admin", discord: "@cocacolaguy" }
+  { name: "Domiprd", role: "Owner", discord: "@domiprdiik", avatar: <img src="https://visage.surgeplay.com/bust/100/Domiprd"></img> },
+  { name: "LukasRandom", role: "Admin", discord: "@cocacolaguy", avatar: <img src="https://visage.surgeplay.com/bust/100/Steve"></img> }
 ];
 
 export default function StaffPage() {
