@@ -14,27 +14,27 @@ const helpers = [
 ];
 
 const builders = [
-  { name: "Builder1", role: "Builder", discord: "@builder1", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> },
-  { name: "Builder2", role: "Builder", discord: "@builder2", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> }
+  { name: "Builder1", role: "Builder", discord: "@builder1", avatar: "Alex" },
+  { name: "Builder2", role: "Builder", discord: "@builder2", avatar: "Alex" }
 ];
 
 const developers = [
-  { name: "Dev1", role: "Developer", discord: "@dev1", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> },
-  { name: "Dev2", role: "Developer", discord: "@dev2", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> }
+  { name: "Dev1", role: "Developer", discord: "@dev1", avatar: "Alex" },
+  { name: "Dev2", role: "Developer", discord: "@dev2", avatar: "Alex" }
 ];
 
 const eventers = [
-  { name: "Eventer1", role: "Eventer", discord: "@eventer1", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> },
-  { name: "Eventer2", role: "Eventer", discord: "@eventer2", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> }
+  { name: "Eventer1", role: "Eventer", discord: "@eventer1", avatar: "Alex" },
+  { name: "Eventer2", role: "Eventer", discord: "@eventer2", avatar: "Alex" }
 ];
 
 const technicians = [
-  { name: "Tech1", role: "Technician", discord: "@tech1", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> },
-  { name: "Tech2", role: "Technician", discord: "@tech2", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> }
+  { name: "Tech1", role: "Technician", discord: "@tech1", avatar: "Alex" },
+  { name: "Tech2", role: "Technician", discord: "@tech2", avatar: "Alex" }
 ];
 
 const youtubers = [
-  { name: "Youtuber1", role: "Youtuber", discord: "@youtuber1", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> }
+  { name: "Youtuber1", role: "Youtuber", discord: "@youtuber1", avatar: "Alex" }
 ];
 
 export default function StaffPage() {
@@ -64,7 +64,6 @@ export default function StaffPage() {
                unoptimized
              />
             </div>
-
             </Card>
         ))}
       </div>
@@ -85,7 +84,13 @@ export default function StaffPage() {
             </div>
 
             <div className="ml-4">
-                {m.avatar}
+              <Image
+               src={`https://visage.surgeplay.com/bust/100/${m.avatar}`}
+               alt={`Minecraft skin ${m.name}`}
+               width={100}
+               height={100}
+               unoptimized
+             />
             </div>
             </Card>
         ))}
@@ -107,7 +112,13 @@ export default function StaffPage() {
             </div>
 
             <div className="ml-4">
-                {m.avatar}
+              <Image
+               src={`https://visage.surgeplay.com/bust/100/${m.avatar}`}
+               alt={`Minecraft skin ${m.name}`}
+               width={100}
+               height={100}
+               unoptimized
+             />
             </div>
             </Card>
         ))}
@@ -129,7 +140,13 @@ export default function StaffPage() {
             </div>
 
             <div className="ml-4">
-                {m.avatar}
+              <Image
+               src={`https://visage.surgeplay.com/bust/100/${m.avatar}`}
+               alt={`Minecraft skin ${m.name}`}
+               width={100}
+               height={100}
+               unoptimized
+             />
             </div>
             </Card>
         ))}
@@ -151,7 +168,13 @@ export default function StaffPage() {
             </div>
 
             <div className="ml-4">
-                {m.avatar}
+              <Image
+               src={`https://visage.surgeplay.com/bust/100/${m.avatar}`}
+               alt={`Minecraft skin ${m.name}`}
+               width={100}
+               height={100}
+               unoptimized
+             />
             </div>
             </Card>
         ))}
@@ -173,7 +196,13 @@ export default function StaffPage() {
             </div>
 
             <div className="ml-4">
-                {m.avatar}
+              <Image
+               src={`https://visage.surgeplay.com/bust/100/${m.avatar}`}
+               alt={`Minecraft skin ${m.name}`}
+               width={100}
+               height={100}
+               unoptimized
+             />
             </div>
             </Card>
         ))}
@@ -195,7 +224,13 @@ export default function StaffPage() {
             </div>
 
             <div className="ml-4">
-                {m.avatar}
+              <Image
+               src={`https://visage.surgeplay.com/bust/100/${m.avatar}`}
+               alt={`Minecraft skin ${m.name}`}
+               width={100}
+               height={100}
+               unoptimized
+             />
             </div>
             </Card>
         ))}
