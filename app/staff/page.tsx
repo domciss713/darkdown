@@ -1,7 +1,8 @@
 import { Card } from "@/components/ui/card";
+import Image from "next/image";
 
 const staff = [
-  { name: "Domiprd", role: "Owner", discord: "@domiprdiik", avatar: <img src="https://visage.surgeplay.com/bust/100/Domiprd"/> },
+  { name: "Domiprd", role: "Owner", discord: "@domiprdiik", avatar: "Domiprd" },
   { name: "LukasRandom", role: "Admin", discord: "@cocacolaguy", avatar: <img src="https://visage.surgeplay.com/bust/100/Steve"/> },
   { name: "AllwEx_99", role: "Co-Owner", discord: "@allw3x", avatar: <img src="https://visage.surgeplay.com/bust/100/38306024-e641-4371-80b7-8fdd10c7a6db"/> }
 ];
@@ -55,8 +56,15 @@ export default function StaffPage() {
             </div>
 
             <div className="ml-4">
-                {m.avatar}
+              <Image
+               src={`https://visage.surgeplay.com/bust/100/${m.avatar}`}
+               alt={`Minecraft skin ${m.name}`}
+               width={100}
+               height={100}
+               unoptimized
+             />
             </div>
+
             </Card>
         ))}
       </div>
