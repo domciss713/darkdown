@@ -32,7 +32,7 @@ const rules3 = [
 
 const rules4 = [
   "Neznalost pravidel neomlouvá. Každý hráč je povinen se s pravidly seznámit.",
-  "Neznalost pravidel neomlouvá. Každý hráč je povinen se s pravidly seznámit.",
+  "Pravidla mohou být kdykoliv změněna nebo aktualizována. Aktuální verze pravidel je vždy k dispozici na webových stránkách serveru.",
   "Připojením na server automaticky souhlasíš se všemi uvedenými pravidly."
 ];
 
