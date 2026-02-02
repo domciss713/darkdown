@@ -3,14 +3,14 @@ import Image from "next/image";
 
 const staff = [
   { name: "Domiprd", role: "Owner", discord: "@domiprdiik", avatar: "Domiprd" },
-  { name: "LukasRandom", role: "Admin", discord: "@cocacolaguy", avatar: <img src="https://visage.surgeplay.com/bust/100/Steve"/> },
-  { name: "AllwEx_99", role: "Co-Owner", discord: "@allw3x", avatar: <img src="https://visage.surgeplay.com/bust/100/38306024-e641-4371-80b7-8fdd10c7a6db"/> }
+  { name: "LukasRandom", role: "Admin", discord: "@cocacolaguy", avatar: "Steve" },
+  { name: "AllwEx_99", role: "Co-Owner", discord: "@allw3x", avatar: "38306024-e641-4371-80b7-8fdd10c7a6db" }
 ];
 
 const helpers = [
-  { name: "Helper1", role: "Helper", discord: "@helper1", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> },
-  { name: "Helper2", role: "Helper", discord: "@helper2", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> },
-  { name: "Helper3", role: "Helper", discord: "@helper3", avatar: <img src="https://visage.surgeplay.com/bust/100/Alex"></img> }
+  { name: "Helper1", role: "Helper", discord: "@helper1", avatar: "Alex" },
+  { name: "Helper2", role: "Helper", discord: "@helper2", avatar: "Alex" },
+  { name: "Helper3", role: "Helper", discord: "@helper3", avatar: "Alex" }
 ];
 
 const builders = [
