@@ -42,12 +42,14 @@ model User {
   image         String?
   role          Role        @default(USER)
   discordId     String?     @unique
-  minecraftNick String?
+  minecraftNick String?     @unique
   tickets       Ticket[]    @relation("UserTickets")
   playerLink    PlayerLink?
   accounts      Account[]
   sessions      Session[]
   messages      Message[]   @relation("UserMessages")
+  passwordHash     String?
+  emailVerifiedAt  DateTime?
 }
 
 model PlayerLink {
@@ -151,4 +153,30 @@ model LinkCode {
   code      String   @unique
   userId    String
   createdAt DateTime @default(now())
+}
+
+model EmailVerifyToken {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String
+  expiresAt DateTime
+  usedAt    DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tokenHash])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String
+  expiresAt DateTime
+  usedAt    DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tokenHash])
 }

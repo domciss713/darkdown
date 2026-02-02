@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     const id = identifier.toLowerCase().trim();
 
     const user = await prisma.user.findFirst({
-      where: id.includes("@") ? { email: id } : { minecraftName: id },
+      where: id.includes("@") ? { email: id } : { minecraftNick: id },
       select: { id: true, email: true },
     });
 
