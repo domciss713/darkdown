@@ -38,17 +38,16 @@ model User {
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
   name                String?
-  email               String?              @unique
+  email               String               @unique
   image               String?
   role                Role                 @default(USER)
-  discordId           String?              @unique
-  minecraftNick       String?              @unique
+  minecraftNick       String               @unique
   tickets             Ticket[]             @relation("UserTickets")
   playerLink          PlayerLink?
   accounts            Account[]
   sessions            Session[]
   messages            Message[]            @relation("UserMessages")
-  passwordHash        String?
+  passwordHash        String
   emailVerifiedAt     DateTime?
   emailVerifyTokens   EmailVerifyToken[]
   passwordResetTokens PasswordResetToken[]
