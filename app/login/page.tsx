@@ -30,7 +30,7 @@ export default function LoginPage() {
         <br />
         <input placeholder="heslo" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <br />
-        <button type="submit">prihlasit</button>
+        <button type="submit">přihlásit</button>
       </form>
       <p>{msg}</p>
     </div>
