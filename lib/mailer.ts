@@ -14,11 +14,11 @@ export async function sendVerifyEmail(to: string, url: string) {
   await resend.emails.send({
     from,
     to,
-    subject: "Overeni emailu - DarkDowN",
+    subject: "Ověření emailu - DarkDowN",
     html: `
       <div style="font-family:Arial,sans-serif;line-height:1.5">
-        <h2>Overeni emailu</h2>
-        <p>Klikni na odkaz a potvrdis email:</p>
+        <h2>Ověření emailu</h2>
+        <p>Klikni na odkaz a potvrď email:</p>
         <p><a href="${url}">${url}</a></p>
         <p>Pokud jsi to nebyl ty, ignoruj to.</p>
       </div>
@@ -38,7 +38,7 @@ export async function sendResetEmail(to: string, url: string) {
     html: `
       <div style="font-family:Arial,sans-serif;line-height:1.5">
         <h2>Reset hesla</h2>
-        <p>Klikni na odkaz a nastavis nove heslo:</p>
+        <p>Klikni na odkaz a nastav si nové heslo:</p>
         <p><a href="${url}">${url}</a></p>
         <p>Pokud jsi to nebyl ty, ignoruj to.</p>
       </div>

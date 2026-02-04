@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function RegisterPage() {
   const [minecraftNick, setMinecraftNick] = useState("");
@@ -46,7 +47,7 @@ export default function RegisterPage() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />
-        <button type="submit">vytvorit ucet</button>
+        <Button variant="primary" type="submit">vytvorit ucet</Button>
       </form>
       <p>{msg}</p>
     </div>

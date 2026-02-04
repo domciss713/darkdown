@@ -41,8 +41,9 @@ export async function POST(req: Request) {
 
     const token = jwt.sign({ userId: user.id }, secret, { expiresIn: "7d" });
 
-    const cookieStore = await cookies();
-    cookieStore.set("session", token, {
+    const res = NextResponse.json({ ok: true });
+
+    res.cookies.set("session", token, {
       httpOnly: true,
       secure: true,
       sameSite: "lax",
