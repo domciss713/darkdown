@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
   const [identifier, setIdentifier] = useState("");
@@ -18,7 +19,10 @@ export default function LoginPage() {
     });
 
     const data = await res.json();
-    if (data.ok) setMsg("ok, prihlaseno");
+    if (data.ok) {
+      setMsg("ok, přihlášeno");
+      window.location.href = "/me"; // přesměrování po úspěšném přihlášení
+    }
     else setMsg("error: " + (data.error || "unknown"));
   }
 
@@ -30,7 +34,7 @@ export default function LoginPage() {
         <br />
         <input placeholder="heslo" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <br />
-        <button type="submit">přihlásit</button>
+        <Button variant="primary" type="submit">přihlásit</Button>
       </form>
       <p>{msg}</p>
     </div>
