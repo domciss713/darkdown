@@ -50,7 +50,7 @@ model User {
   passwordHash        String
   emailVerifiedAt     DateTime?
   emailVerifyTokens   EmailVerifyToken[]
-  passwordResetTokens PasswordResetToken[]
+  passwordResetTokens PasswordResetToken[] 
 }
 
 model PlayerLink {

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function ResetPasswordPage() {
+function ResetInner() {
   const sp = useSearchParams();
   const token = sp.get("token");
   const [newPassword, setNewPassword] = useState("");
@@ -12,6 +12,7 @@ export default function ResetPasswordPage() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setMsg("");
+
     if (!token) return setMsg("chybi token");
 
     const res = await fetch("/api/auth/reset", {
@@ -39,5 +40,13 @@ export default function ResetPasswordPage() {
       </form>
       <p>{msg}</p>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<div style={{ margin: 40 }}>nahravam...</div>}>
+      <ResetInner />
+    </Suspense>
   );
 }

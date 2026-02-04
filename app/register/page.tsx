@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 export default function RegisterPage() {
-  const [username, setUsername] = useState("");
+  const [minecraftNick, setMinecraftNick] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState<string>("");
@@ -15,7 +15,7 @@ export default function RegisterPage() {
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, email, password }),
+      body: JSON.stringify({ minecraftNick, email, password }),
     });
 
     const data = await res.json();
@@ -27,11 +27,24 @@ export default function RegisterPage() {
     <div style={{ maxWidth: 420, margin: "40px auto" }}>
       <h1>registrace</h1>
       <form onSubmit={onSubmit}>
-        <input placeholder="nick" value={username} onChange={(e) => setUsername(e.target.value)} />
+        <input
+          placeholder="nick"
+          value={minecraftNick}
+          onChange={(e) => setMinecraftNick(e.target.value)}
+        />
         <br />
-        <input placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input
+          placeholder="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <br />
-        <input placeholder="heslo" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input
+          placeholder="heslo"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <br />
         <button type="submit">vytvorit ucet</button>
       </form>

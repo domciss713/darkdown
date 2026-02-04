@@ -6,11 +6,11 @@ import { makeRawToken, hashToken, expiresInMinutes } from "@/lib/tokens";
 import { sendVerifyEmail } from "@/lib/mailer";
 
 const BodySchema = z.object({
-  username: z
+  minecraftNick: z
     .string()
     .min(3)
-    .max(24)
-    .regex(/^[a-zA-Z0-9_]+$/, "bad_username"),
+    .max(16)
+    .regex(/^[a-zA-Z0-9_]+$/, "bad_minecraft_nick"),
   email: z.string().email().max(254),
   password: z.string().min(8).max(72),
 });
@@ -19,9 +19,12 @@ export async function POST(req: Request) {
   try {
     const data = BodySchema.parse(await req.json());
 
+    const nick = data.minecraftNick.toLowerCase().trim();
+    const email = data.email.toLowerCase().trim();
+
     const existing = await prisma.user.findFirst({
       where: {
-        OR: [{ username: data.username.toLowerCase() }, { email: data.email.toLowerCase() }],
+        OR: [{ minecraftNick: nick }, { email }],
       },
       select: { id: true },
     });
@@ -34,9 +37,10 @@ export async function POST(req: Request) {
 
     const user = await prisma.user.create({
       data: {
-        username: data.username.toLowerCase(),
-        email: data.email.toLowerCase(),
+        minecraftNick: nick,
+        email,
         passwordHash,
+        // emailVerifiedAt zustava null dokud nepotvrdi
       },
       select: { id: true, email: true },
     });
@@ -58,7 +62,7 @@ export async function POST(req: Request) {
     await sendVerifyEmail(user.email, verifyUrl);
 
     return NextResponse.json({ ok: true });
-  } catch (e: any) {
+  } catch {
     return NextResponse.json({ ok: false, error: "bad_request" }, { status: 400 });
   }
 }
