@@ -1,8 +1,15 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return null;
+  return new Resend(key);
+}
 
 export async function sendVerifyEmail(to: string, url: string) {
+  const resend = getResend();
+  if (!resend) return; // bez klice nic neposilej
+
   const from = process.env.MAIL_FROM || "onboarding@resend.dev";
   await resend.emails.send({
     from,
@@ -20,6 +27,9 @@ export async function sendVerifyEmail(to: string, url: string) {
 }
 
 export async function sendResetEmail(to: string, url: string) {
+  const resend = getResend();
+  if (!resend) return;
+
   const from = process.env.MAIL_FROM || "onboarding@resend.dev";
   await resend.emails.send({
     from,
