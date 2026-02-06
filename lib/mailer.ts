@@ -20,7 +20,7 @@ export async function sendVerifyEmail(to: string, url: string) {
       <div style="font-family:Arial,sans-serif;line-height:1.5">
         <h2>Ověření emailu</h2>
         <p>Klikni na odkaz a potvrď email:</p>
-        <Button><a href="${url}">Potvrdit email</a></Button>
+        <Button variant="primary" type="submit"><a href="${url}">Potvrdit email</a></Button>
         <p><a href="${url}">${url}</a></p>
         <p>Pokud jsi to nebyl ty, ignoruj to.</p>
       </div>

@@ -4,6 +4,10 @@ import { redirect } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
 
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 async function getProfile(userId: string) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
