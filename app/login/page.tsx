@@ -20,7 +20,6 @@ export default function LoginPage() {
 
     const data = await res.json();
     if (data.ok) {
-      setMsg("ok, přihlášeno");
       window.location.href = "/me"; // přesměrování po úspěšném přihlášení
     }
     else setMsg("error: " + (data.error || "unknown"));
