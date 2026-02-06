@@ -1,64 +1,57 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { redirect } from "next/navigation";
-import { Card } from "@/components/ui/card";
-import { prisma } from "@/lib/prisma";
-
-
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-async function getProfile(userId: string) {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    include: { playerLink: true }
-  });
-  return user;
-}
+import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
 
 export default async function MePage() {
-  const session = await getServerSession(authOptions);
-  if (!session?.user) redirect("/login");
-  const userId = (session.user as any).id as string;
-  const user = await getProfile(userId);
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session")?.value ?? null;
 
-  return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-semibold">My account</h1>
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card>
-          <h2 className="text-xl font-semibold mb-2">Discord</h2>
-          <p className="text-sm text-dd-muted">
-            Logged in as {user?.name ?? session.user?.name}
-          </p>
-          <p className="text-xs text-dd-muted mt-2">
-            Email {user?.email ?? session.user?.email ?? "not linked"}
-          </p>
-        </Card>
-        <Card>
-          <h2 className="text-xl font-semibold mb-2">Minecraft link</h2>
-          {user?.playerLink ? (
-            <div className="text-sm text-dd-muted">
-              <p>Linked as {user.playerLink.name}</p>
-              <p className="text-xs mt-1">UUID {user.playerLink.uuid}</p>
-            </div>
-          ) : (
-            <div className="text-sm text-dd-muted space-y-2">
-              <p>
-                To link your Minecraft account, join the server and use
-                the command
-              </p>
-              <code className="rounded bg-black/40 px-2 py-1 text-xs">
-                /link
-              </code>
-              <p className="text-xs">
-                Then open this page and enter the 6 character code
-                shown in game.
-              </p>
-            </div>
-          )}
-        </Card>
+  const hasSecret = !!process.env.AUTH_SECRET;
+
+  if (!token) {
+    return (
+      <div style={{ margin: 40 }}>
+        <h1>/me debug</h1>
+        <p>session cookie: NONE</p>
+        <p>AUTH_SECRET exists: {String(hasSecret)}</p>
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (!process.env.AUTH_SECRET) {
+    return (
+      <div style={{ margin: 40 }}>
+        <h1>/me debug</h1>
+        <p>session cookie: PRESENT</p>
+        <p>AUTH_SECRET exists: false</p>
+        <p>tohle je duvod - na netlify nemas AUTH_SECRET v runtime</p>
+      </div>
+    );
+  }
+
+  try {
+    const payload = jwt.verify(token, process.env.AUTH_SECRET) as any;
+
+    return (
+      <div style={{ margin: 40 }}>
+        <h1>/me debug</h1>
+        <p>session cookie: PRESENT</p>
+        <p>AUTH_SECRET exists: true</p>
+        <p>jwt payload:</p>
+        <pre style={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(payload, null, 2)}</pre>
+      </div>
+    );
+  } catch (e: any) {
+    return (
+      <div style={{ margin: 40 }}>
+        <h1>/me debug</h1>
+        <p>session cookie: PRESENT</p>
+        <p>AUTH_SECRET exists: {String(hasSecret)}</p>
+        <p>jwt verify: FAILED</p>
+        <pre style={{ whiteSpace: "pre-wrap" }}>{String(e?.message || e)}</pre>
+      </div>
+    );
+  }
 }
