@@ -2,11 +2,20 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
+
 
 export default function LoginPage() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState<string>("");
+
+  useEffect(() => {
+  (async () => {
+    const res = await fetch("/api/auth/me", { cache: "no-store", credentials: "include" });
+    if (res.ok) window.location.assign("/me");
+  })();
+  }, []);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -19,8 +28,11 @@ export default function LoginPage() {
     });
 
     const data = await res.json();
+    
     if (data.ok) {
       window.location.href = "/me"; // přesměrování po úspěšném přihlášení
+      console.log("login ok, presmerovavam na /me");
+      return;
     }
     else setMsg("error: " + (data.error || "unknown"));
   }
