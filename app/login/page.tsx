@@ -25,9 +25,9 @@ export default function LoginPage() {
   }, []);
 
   useEffect(() => {
-    const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITEKEY;
+    const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
     if (!siteKey) {
-      setMsg("chybi NEXT_PUBLIC_TURNSTILE_SITEKEY");
+      setMsg("chybi NEXT_PUBLIC_TURNSTILE_SITE_KEY");
       return;
     }
 
