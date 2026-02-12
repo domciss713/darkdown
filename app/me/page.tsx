@@ -73,9 +73,6 @@ export default async function MePage() {
               unoptimized
               className="drop-shadow-xl"
             />
-            <div className="absolute -top-2 -left-2 rounded-md px-2 py-1 text-xs font-semibold bg-yellow-500/15 text-yellow-200 ring-1 ring-yellow-400/30">
-              VIP
-            </div>
           </div>
 
           <div className="text-xl font-semibold">{nick}</div>
