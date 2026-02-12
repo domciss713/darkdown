@@ -37,6 +37,52 @@ const youtubers = [
   { name: "Youtuber1", role: "Youtuber", discord: "@youtuber1", avatar: "Alex" }
 ];
 
+
+const getRoleColor = (role: string) =>
+  role === "Owner"
+    ? "text-purple-400"
+    : role === "Co-Owner"
+    ? "text-fuchsia-400"
+    : role === "Admin"
+    ? "text-red-400"
+    : role === "Helper"
+    ? "text-emerald-400"
+    : role === "Builder"
+    ? "text-amber-400"
+    : role === "Developer"
+    ? "text-sky-400"
+    : role === "Eventer"
+    ? "text-pink-400"
+    : role === "Technician"
+    ? "text-cyan-400"
+    : role === "Youtuber"
+    ? "text-yellow-300"
+    : "text-dd-muted";
+
+
+const getRoleGlow = (role: string) =>
+  role === "Owner"
+    ? "hover:shadow-purple-500/40"
+    : role === "Co-Owner"
+    ? "hover:shadow-fuchsia-500/40"
+    : role === "Admin"
+    ? "hover:shadow-red-500/40"
+    : role === "Helper"
+    ? "hover:shadow-emerald-500/40"
+    : role === "Builder"
+    ? "hover:shadow-amber-500/40"
+    : role === "Developer"
+    ? "hover:shadow-sky-500/40"
+    : role === "Eventer"
+    ? "hover:shadow-pink-500/40"
+    : role === "Technician"
+    ? "hover:shadow-cyan-500/40"
+    : role === "Youtuber"
+    ? "hover:shadow-yellow-400/40"
+    :"";
+
+
+
 export default function StaffPage() {
   return (
     <div className="space-y-6">
@@ -45,11 +91,15 @@ export default function StaffPage() {
         {staff.map((m) => (
           <Card 
             key={m.name}
-            className="flex items-center justify-between p-6"
+            className={`flex items-center justify-between p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl ${getRoleGlow(
+              m.role
+            )}`}
           >
             <div className="flex flex-col gap-1">
             <p className="text-lg font-semibold">{m.name}</p>
-            <p className="text-sm text-dd-muted">{m.role}</p>
+            <p className={`text-sm font-semibold ${getRoleColor(m.role)}`}>
+                {m.role}
+            </p>
             <p className="text-xs text-dd-muted mt-2">
                Discord {m.discord}
             </p>
