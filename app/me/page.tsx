@@ -66,7 +66,7 @@ export default async function MePage() {
         <div className="flex flex-col items-center gap-3">
           <div className="relative">
             <Image
-              src={`https://visage.surgeplay.com/full/220/${encodeURIComponent(nick)}`}
+              src={`https://visage.surgeplay.com/full/120/${encodeURIComponent(nick)}`}
               alt={`Minecraft skin ${nick}`}
               width={220}
               height={220}
@@ -107,13 +107,8 @@ export default async function MePage() {
           </div>
 
           <div className="mt-6">
-            <form action="/api/auth/logout" method="post">
-              <button
-                type="submit"
-                className="rounded-xl bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/15 transition"
-              >
-                odhlasit
-              </button>
+            <form action="/api/auth/logout?next=/login" method="post">
+              <button type="submit">odhlasit</button>
             </form>
           </div>
         </div>

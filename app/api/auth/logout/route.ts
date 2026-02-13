@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 
-export async function POST() {
-  const res = NextResponse.json({ ok: true });
+export async function POST(req: Request) {
+  const url = new URL(req.url);
+  const next = url.searchParams.get("next");
+  const target = next && next.startsWith("/") ? next : "/login";
+
+  const res = NextResponse.redirect(new URL(target, url.origin));
 
   res.cookies.set("session", "", {
     httpOnly: true,
