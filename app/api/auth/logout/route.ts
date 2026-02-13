@@ -13,6 +13,7 @@ export async function POST(req: Request) {
     sameSite: "lax",
     path: "/",
     maxAge: 0,
+    domain: process.env.NODE_ENV === "production" ? ".darkdown.xyz" : undefined,
   });
 
   return res;
