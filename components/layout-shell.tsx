@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { SessionKeepalive } from "@/components/session-keepalive";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -17,6 +18,7 @@ const navLinks = [
 export function LayoutShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen dd-gradient-bg flex flex-col">
+      <SessionKeepalive />
       <header className="sticky top-0 z-30 border-b border-white/5 bg-black/40 backdrop-blur-glass">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <Link
