@@ -4,15 +4,16 @@ export const revalidate = 0;
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
+import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { mcDisplayRole } from "@/lib/access";
 
 const roleBadge = (role: string) => {
-  if (role === "OWNER") return "bg-purple-500/15 text-purple-300 ring-1 ring-purple-400/30";
-  if (role === "ADMIN") return "bg-red-500/15 text-red-300 ring-1 ring-red-400/30";
-  if (role === "VIP") return "bg-yellow-500/15 text-yellow-200 ring-1 ring-yellow-400/30";
-  return "bg-white/10 text-white/70 ring-1 ring-white/15";
+  if (role === "ADMIN") return "bg-red-500/20 text-red-200 ring-1 ring-red-400/30";
+  if (role === "STAFF") return "bg-blue-500/20 text-blue-200 ring-1 ring-blue-400/30";
+  if (role === "VIP") return "bg-yellow-500/20 text-yellow-100 ring-1 ring-yellow-400/30";
+  return "bg-white/10 text-white/70 ring-1 ring-white/20";
 };
 
 export default async function MePage() {
@@ -28,6 +29,12 @@ export default async function MePage() {
       email: true,
       emailVerifiedAt: true,
       role: true,
+      createdAt: true,
+      tickets: {
+        orderBy: { createdAt: "desc" },
+        take: 3,
+        select: { id: true, code: true, subject: true, status: true, createdAt: true },
+      },
     },
   });
 
@@ -47,137 +54,80 @@ export default async function MePage() {
   const role = mcDisplayRole(String(user.role || "USER"), nick);
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-10">
-      <div className="mb-8 text-center text-4xl font-semibold">Můj účet</div>
-
-      <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
-        <div className="flex flex-col items-center gap-3">
-          <div className="relative">
-            <Image
-              src={`https://visage.surgeplay.com/full/120/${encodeURIComponent(nick)}`}
-              alt={`Minecraft skin ${nick}`}
-              width={220}
-              height={220}
-              unoptimized
-              className="drop-shadow-xl"
-            />
-          </div>
-
-          <div className="text-xl font-semibold">{nick}</div>
-          <div className={`rounded-full px-3 py-1 text-xs font-semibold ${roleBadge(role)}`}>
-            {role}
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <div className="flex items-center gap-3 text-xl font-semibold">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10">i</span>
-            Informace:
-          </div>
-
-          <div className="mt-5 grid gap-3 text-sm text-white/80">
-            <div className="flex items-center justify-between rounded-xl bg-black/20 px-4 py-3">
-              <div>E-mail</div>
-              <div className="text-white">{user.email || "-"}</div>
+    <div className="space-y-6">
+      <section className="rounded-3xl border border-white/15 bg-gradient-to-br from-[#1a1230]/90 via-[#11101f]/90 to-[#0d0c16]/90 p-6 shadow-dd backdrop-blur-xl">
+        <div className="grid gap-6 md:grid-cols-[220px_1fr] md:items-center">
+          <div className="flex flex-col items-center">
+            <div className="rounded-2xl border border-white/10 bg-black/30 p-3">
+              <Image
+                src={`https://visage.surgeplay.com/full/120/${encodeURIComponent(nick)}`}
+                alt={`Minecraft skin ${nick}`}
+                width={180}
+                height={180}
+                unoptimized
+                className="drop-shadow-xl"
+              />
             </div>
+            <div className="mt-3 text-xl font-semibold">{nick}</div>
+            <div className={`mt-2 rounded-full px-3 py-1 text-xs font-semibold ${roleBadge(role)}`}>{role}</div>
+          </div>
 
-            <div className="flex items-center justify-between rounded-xl bg-black/20 px-4 py-3">
-              <div>Ověřeno</div>
-              <div className={user.emailVerifiedAt ? "text-emerald-300" : "text-red-300"}>
-                {user.emailVerifiedAt ? "ano" : "ne"}
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-dd-accent/80">Player Profile</p>
+            <h1 className="mt-2 text-3xl font-semibold">Můj účet</h1>
+            <p className="mt-2 text-sm text-dd-muted">Centrum tvého Minecraft web účtu a ticketů.</p>
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <div className="rounded-xl border border-white/10 bg-black/25 px-4 py-3">
+                <p className="text-xs text-dd-muted">E-mail</p>
+                <p className="text-sm text-white mt-1 break-all">{user.email || "-"}</p>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-black/25 px-4 py-3">
+                <p className="text-xs text-dd-muted">Ověření</p>
+                <p className={`text-sm mt-1 ${user.emailVerifiedAt ? "text-emerald-300" : "text-red-300"}`}>
+                  {user.emailVerifiedAt ? "Ověřeno" : "Neověřeno"}
+                </p>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-black/25 px-4 py-3">
+                <p className="text-xs text-dd-muted">Člen od</p>
+                <p className="text-sm text-white mt-1">{new Date(user.createdAt).toLocaleDateString("cs-CZ")}</p>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-black/25 px-4 py-3">
+                <p className="text-xs text-dd-muted">Rychlé akce</p>
+                <div className="mt-1 flex gap-2">
+                  <Link href="/tickets" className="rounded-lg bg-white/10 px-2 py-1 text-xs hover:bg-white/15">Tickety</Link>
+                  <Link href="/status" className="rounded-lg bg-white/10 px-2 py-1 text-xs hover:bg-white/15">Status</Link>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center justify-between rounded-xl bg-black/20 px-4 py-3">
-              <div>Role</div>
-              <div className="text-white">{role}</div>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <form action="/api/auth/logout?next=/login" method="post">
-              <button type="submit">odhlasit</button>
+            <form action="/api/auth/logout?next=/login" method="post" className="mt-5">
+              <button type="submit" className="rounded-xl border border-red-400/25 bg-red-500/10 px-4 py-2 text-sm text-red-200 hover:bg-red-500/20 transition-colors">
+                Odhlásit se
+              </button>
             </form>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <div className="text-lg font-semibold">Změna e-mailu:</div>
-
-          <form action="/api/account/change-email" method="post" className="mt-4 space-y-3">
-            <div>
-              <div className="mb-1 text-sm text-white/70">Nová e-mailová adresa:</div>
-              <input
-                name="newEmail"
-                className="w-full rounded-xl border border-white/10 bg-black/25 px-3 py-2 text-white outline-none focus:border-white/25"
-                placeholder="nova@email.cz"
-              />
-            </div>
-
-            <div>
-              <div className="mb-1 text-sm text-white/70">Aktuální heslo:</div>
-              <input
-                name="password"
-                type="password"
-                className="w-full rounded-xl border border-white/10 bg-black/25 px-3 py-2 text-white outline-none focus:border-white/25"
-                placeholder="********"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="mt-2 w-full rounded-xl bg-blue-600/80 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600 transition"
-            >
-              Změnit e-mail
-            </button>
-          </form>
+      <section className="rounded-3xl border border-white/10 bg-black/30 p-6 backdrop-blur-xl">
+        <h2 className="text-xl font-semibold">Poslední tickety</h2>
+        <div className="mt-4 space-y-2">
+          {user.tickets.length === 0 ? (
+            <p className="text-sm text-dd-muted">Zatím nemáš žádný ticket.</p>
+          ) : (
+            user.tickets.map((t) => (
+              <Link key={t.id} href={`/tickets/${t.id}`} className="block rounded-xl border border-white/10 bg-black/25 px-4 py-3 hover:border-dd-accent/50 transition-colors">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="font-medium text-sm">{t.subject}</p>
+                  <span className="text-xs text-dd-muted">{t.status}</span>
+                </div>
+                <p className="mt-1 text-xs text-dd-muted">#{t.code} · {new Date(t.createdAt).toLocaleString("cs-CZ")}</p>
+              </Link>
+            ))
+          )}
         </div>
-
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <div className="text-lg font-semibold">Změna hesla:</div>
-
-          <form action="/api/account/change-password" method="post" className="mt-4 space-y-3">
-            <div>
-              <div className="mb-1 text-sm text-white/70">Aktuální heslo:</div>
-              <input
-                name="currentPassword"
-                type="password"
-                className="w-full rounded-xl border border-white/10 bg-black/25 px-3 py-2 text-white outline-none focus:border-white/25"
-                placeholder="********"
-              />
-            </div>
-
-            <div>
-              <div className="mb-1 text-sm text-white/70">Nové heslo:</div>
-              <input
-                name="newPassword"
-                type="password"
-                className="w-full rounded-xl border border-white/10 bg-black/25 px-3 py-2 text-white outline-none focus:border-white/25"
-                placeholder="********"
-              />
-            </div>
-
-            <div>
-              <div className="mb-1 text-sm text-white/70">Nové heslo znovu:</div>
-              <input
-                name="newPassword2"
-                type="password"
-                className="w-full rounded-xl border border-white/10 bg-black/25 px-3 py-2 text-white outline-none focus:border-white/25"
-                placeholder="********"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="mt-2 w-full rounded-xl bg-blue-600/80 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600 transition"
-            >
-              Změnit heslo
-            </button>
-          </form>
-        </div>
-      </div>
+      </section>
     </div>
   );
 }

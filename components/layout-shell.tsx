@@ -23,7 +23,7 @@ export async function LayoutShell({ children }: { children: ReactNode }) {
   const isAuthed = !!session?.user;
 
   return (
-    <div className="min-h-screen dd-gradient-bg flex flex-col">
+    <div className="min-h-screen dd-gradient-bg">
       <SessionKeepalive />
       <header className="z-30 px-3 pt-3">
         <div className="mx-auto flex max-w-6xl items-center justify-between rounded-2xl px-4 py-3 dd-liquid-bar">
@@ -45,10 +45,10 @@ export async function LayoutShell({ children }: { children: ReactNode }) {
             ))}
           </nav>
           <details className="relative md:hidden">
-            <summary className="list-none cursor-pointer rounded-lg border border-white/20 bg-black/35 px-3 py-1.5 text-sm text-dd-text hover:bg-black/55 transition-colors">
+            <summary className="list-none cursor-pointer rounded-lg border border-white/20 bg-black/50 px-3 py-1.5 text-sm text-dd-text hover:bg-black/65 transition-colors">
               Menu
             </summary>
-            <div className="absolute right-0 top-11 z-40 w-52 rounded-xl border border-white/20 bg-[#110d1dde] p-2 shadow-xl backdrop-blur-xl">
+            <div className="absolute right-0 top-11 z-40 w-56 rounded-xl border border-white/20 bg-[#0f0a18f2] p-2 shadow-xl backdrop-blur-xl">
               <nav className="flex flex-col text-sm text-dd-muted">
                 {navLinks.map((l) => (
                   <Link key={`mobile-${l.href}`} href={l.href} className="rounded-lg px-3 py-2 hover:bg-white/10 hover:text-dd-text">
@@ -87,10 +87,10 @@ export async function LayoutShell({ children }: { children: ReactNode }) {
           </div>
         </div>
       </header>
-      <main className="flex-1">
+      <main>
         <div className="mx-auto max-w-6xl px-4 py-8 animate-[fadeIn_.35s_ease-out]">{children}</div>
       </main>
-      <footer className="px-3 pb-3 pt-6">
+      <footer className="px-3 py-6">
         <div className="mx-auto flex max-w-6xl flex-col gap-2 rounded-2xl px-4 py-4 text-xs text-dd-muted dd-liquid-bar md:flex-row md:justify-between">
           <span>DarkDowN © {new Date().getFullYear()}</span>
           <span>

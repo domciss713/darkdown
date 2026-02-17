@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -37,7 +38,7 @@ export default function LoginPage() {
     setMsg("");
 
     if (process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken) {
-      setMsg("potvrd turnstile");
+      setMsg("Potvrď prosím turnstile ověření.");
       return;
     }
 
@@ -55,7 +56,7 @@ export default function LoginPage() {
       return;
     }
 
-    setMsg("error: invalid credentials");
+    setMsg("Neplatné přihlašovací údaje.");
     setTurnstileToken("");
     if (window.turnstile && widgetIdRef.current) window.turnstile.reset(widgetIdRef.current);
   }
@@ -91,23 +92,34 @@ export default function LoginPage() {
           "error-callback": () => setTurnstileToken(""),
         });
       } catch {
-        setMsg("turnstile nejde nacist");
+        setMsg("Turnstile nejde načíst.");
       }
     })();
   }, []);
 
   return (
-    <div style={{ maxWidth: 420, margin: "40px auto" }}>
-      <h1>login</h1>
-      <form onSubmit={onSubmit}>
-        <input placeholder="email nebo nick" value={identifier} onChange={(e) => setIdentifier(e.target.value)} />
-        <br />
-        <input placeholder="heslo" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <br />
-        {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ? <div ref={widgetRef} style={{ margin: "16px 0" }} /> : null}
-        <Button variant="primary" type="submit">přihlásit</Button>
-      </form>
-      <p>{msg}</p>
+    <div className="mx-auto max-w-md py-10">
+      <div className="dd-auth-shell">
+        <p className="text-xs uppercase tracking-[0.2em] text-dd-accent/80">DarkDown Access</p>
+        <h1 className="mt-2 text-3xl font-semibold">Přihlášení</h1>
+        <p className="mt-2 text-sm text-dd-muted">Přihlas se pomocí e-mailu nebo Minecraft nicku.</p>
+
+        <form onSubmit={onSubmit} className="mt-6 space-y-3">
+          <input className="dd-input" placeholder="email nebo nick" value={identifier} onChange={(e) => setIdentifier(e.target.value)} />
+          <input className="dd-input" placeholder="heslo" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+
+          {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ? <div ref={widgetRef} className="pt-1" /> : null}
+
+          <Button variant="primary" type="submit" className="w-full">Přihlásit se</Button>
+        </form>
+
+        <div className="mt-4 flex items-center justify-between text-sm">
+          <Link href="/register" className="text-dd-accent hover:text-white">Nemáš účet?</Link>
+          <Link href="/reset-password" className="text-dd-muted hover:text-white">Zapomenuté heslo</Link>
+        </div>
+
+        {msg ? <p className="mt-4 text-sm text-red-300">{msg}</p> : null}
+      </div>
     </div>
   );
 }
