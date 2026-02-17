@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { cookies } from "next/headers";
 
 async function getAllTickets() {
   return prisma.ticket.findMany({
@@ -18,11 +19,25 @@ type TicketWithAuthor = Tickets[number];
 
 export default async function AdminPage() {
   const session = await getServerSession(authOptions);
-  if (!session?.user) redirect("/login");
+  if (!session?.user) redirect("/login?next=/admin");
 
   const role = (session.user as any).role as string;
   if (role !== "ADMIN" && role !== "STAFF") {
     redirect("/");
+  }
+
+  const expectedToken = process.env.ADMIN_ACCESS_TOKEN;
+  if (!expectedToken) {
+    return (
+      <div className="rounded-xl border border-red-400/40 bg-red-500/10 p-4 text-red-200">
+        Missing ADMIN_ACCESS_TOKEN in environment.
+      </div>
+    );
+  }
+
+  const adminCookie = (await cookies()).get("admin_access")?.value;
+  if (adminCookie !== expectedToken) {
+    redirect("/admin/unlock");
   }
 
   const tickets: TicketWithAuthor[] = await getAllTickets();

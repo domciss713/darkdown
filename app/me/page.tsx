@@ -7,12 +7,51 @@ import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
+type VipTier = "NONE" | "VIP" | "VIP_PLUS" | "VIP_PRO";
+
 const roleBadge = (role: string) => {
-  if (role === "OWNER") return "bg-purple-500/15 text-purple-300 ring-1 ring-purple-400/30";
   if (role === "ADMIN") return "bg-red-500/15 text-red-300 ring-1 ring-red-400/30";
-  if (role === "VIP") return "bg-yellow-500/15 text-yellow-200 ring-1 ring-yellow-400/30";
+  if (role === "STAFF") return "bg-purple-500/15 text-purple-300 ring-1 ring-purple-400/30";
   return "bg-white/10 text-white/70 ring-1 ring-white/15";
 };
+
+const vipConfig: Record<Exclude<VipTier, "NONE">, { label: string; icon: string; style: string }> = {
+  VIP: {
+    label: "VIP",
+    icon: "⭐",
+    style: "bg-yellow-500/15 text-yellow-200 ring-1 ring-yellow-400/30",
+  },
+  VIP_PLUS: {
+    label: "VIP+",
+    icon: "💎",
+    style: "bg-cyan-500/15 text-cyan-200 ring-1 ring-cyan-400/30",
+  },
+  VIP_PRO: {
+    label: "VIP PRO",
+    icon: "👑",
+    style: "bg-amber-500/15 text-amber-100 ring-1 ring-amber-300/30",
+  },
+};
+
+function getVipTierForNick(nick: string | null | undefined): VipTier {
+  if (!nick) return "NONE";
+
+  const raw = process.env.VIP_BADGES || "";
+  const target = nick.toLowerCase();
+
+  for (const pair of raw.split(",")) {
+    const [rawNick, rawTier] = pair.split(":").map((v) => v?.trim());
+    if (!rawNick || !rawTier) continue;
+    if (rawNick.toLowerCase() !== target) continue;
+
+    const normalized = rawTier.toUpperCase();
+    if (normalized === "VIP") return "VIP";
+    if (normalized === "VIP+" || normalized === "VIP_PLUS") return "VIP_PLUS";
+    if (normalized === "VIPPRO" || normalized === "VIP_PRO" || normalized === "VIP PRO") return "VIP_PRO";
+  }
+
+  return "NONE";
+}
 
 export default async function MePage() {
   const session = await getServerSession(authOptions);
@@ -44,6 +83,8 @@ export default async function MePage() {
 
   const nick = user.minecraftNick || "Unknown";
   const role = String(user.role || "USER");
+  const vipTier = getVipTierForNick(user.minecraftNick);
+  const vip = vipTier === "NONE" ? null : vipConfig[vipTier];
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
@@ -66,6 +107,11 @@ export default async function MePage() {
           <div className={`rounded-full px-3 py-1 text-xs font-semibold ${roleBadge(role)}`}>
             {role}
           </div>
+          {vip ? (
+            <div className={`rounded-full px-3 py-1 text-xs font-semibold ${vip.style}`}>
+              {vip.icon} {vip.label}
+            </div>
+          ) : null}
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
@@ -90,6 +136,11 @@ export default async function MePage() {
             <div className="flex items-center justify-between rounded-xl bg-black/20 px-4 py-3">
               <div>Role</div>
               <div className="text-white">{role}</div>
+            </div>
+
+            <div className="flex items-center justify-between rounded-xl bg-black/20 px-4 py-3">
+              <div>VIP</div>
+              <div className="text-white">{vip ? `${vip.icon} ${vip.label}` : "Bez VIP"}</div>
             </div>
           </div>
 
