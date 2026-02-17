@@ -19,3 +19,10 @@ body {
 .dd-glass {
   @apply bg-dd-panel/60 backdrop-blur-glass border border-white/5 shadow-dd rounded-2xl;
 }
+
+.dd-liquid-bar {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.22), rgba(167, 139, 250, 0.12));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px) saturate(130%);
+}
