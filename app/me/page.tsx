@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { mcDisplayRole } from "@/lib/access";
 
 const roleBadge = (role: string) => {
   if (role === "OWNER") return "bg-purple-500/15 text-purple-300 ring-1 ring-purple-400/30";
@@ -43,7 +44,7 @@ export default async function MePage() {
   }
 
   const nick = user.minecraftNick || "Unknown";
-  const role = String(user.role || "USER");
+  const role = mcDisplayRole(String(user.role || "USER"), nick);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">

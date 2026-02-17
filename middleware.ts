@@ -25,5 +25,7 @@ export const config = {
     "/account/:path*",
     "/panel/:path*",
     "/settings/:path*",
+    "/admin/:path*",
+    "/helpers/:path*",
   ],
 };

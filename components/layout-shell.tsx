@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { SessionKeepalive } from "@/components/session-keepalive";
 
 const navLinks = [
@@ -9,13 +11,17 @@ const navLinks = [
   { href: "/news", label: "News" },
   { href: "/store", label: "Store" },
   { href: "/tickets", label: "Tickets" },
+  { href: "/helpers", label: "Helpers" },
   { href: "/status", label: "Status" },
   { href: "/staff", label: "Staff" },
   { href: "/leaderboard", label: "Leaderboard" },
   { href: "/map", label: "Map" }
 ];
 
-export function LayoutShell({ children }: { children: ReactNode }) {
+export async function LayoutShell({ children }: { children: ReactNode }) {
+  const session = await getServerSession(authOptions);
+  const isAuthed = !!session?.user;
+
   return (
     <div className="min-h-screen dd-gradient-bg flex flex-col">
       <SessionKeepalive />
@@ -23,7 +29,7 @@ export function LayoutShell({ children }: { children: ReactNode }) {
         <div className="mx-auto flex max-w-6xl items-center justify-between rounded-2xl px-4 py-3 dd-liquid-bar">
           <Link
             href="/"
-            className="text-lg font-semibold tracking-wide text-dd-accent"
+            className="text-lg font-semibold tracking-wide text-dd-accent transition-transform duration-300 hover:scale-105"
           >
             DarkDowN
           </Link>
@@ -39,32 +45,50 @@ export function LayoutShell({ children }: { children: ReactNode }) {
             ))}
           </nav>
           <details className="relative md:hidden">
-            <summary className="list-none cursor-pointer rounded-lg border border-white/10 px-3 py-1.5 text-sm text-dd-text/90 hover:bg-white/5">
+            <summary className="list-none cursor-pointer rounded-lg border border-white/20 bg-black/35 px-3 py-1.5 text-sm text-dd-text hover:bg-black/55 transition-colors">
               Menu
             </summary>
-            <div className="absolute right-0 top-11 z-40 w-48 rounded-xl dd-liquid-bar p-2">
+            <div className="absolute right-0 top-11 z-40 w-52 rounded-xl border border-white/20 bg-[#110d1dde] p-2 shadow-xl backdrop-blur-xl">
               <nav className="flex flex-col text-sm text-dd-muted">
                 {navLinks.map((l) => (
-                  <Link key={`mobile-${l.href}`} href={l.href} className="rounded-lg px-3 py-2 hover:bg-white/5 hover:text-dd-text">
+                  <Link key={`mobile-${l.href}`} href={l.href} className="rounded-lg px-3 py-2 hover:bg-white/10 hover:text-dd-text">
                     {l.label}
                   </Link>
                 ))}
-                <Link href="/login" className="mt-1 rounded-lg px-3 py-2 text-dd-text hover:bg-white/5">
-                  Login
-                </Link>
+                {isAuthed ? (
+                  <form action="/api/auth/logout?next=/login" method="post" className="mt-1">
+                    <button type="submit" className="w-full rounded-lg px-3 py-2 text-left text-red-200 hover:bg-red-500/15">
+                      Odhlásit se
+                    </button>
+                  </form>
+                ) : (
+                  <Link href="/login" className="mt-1 rounded-lg px-3 py-2 text-dd-text hover:bg-white/10">
+                    Přihlásit se
+                  </Link>
+                )}
               </nav>
             </div>
           </details>
-          <Link
-            href="/login"
-            className="hidden text-sm text-dd-muted hover:text-dd-text md:inline"
-          >
-            Login
-          </Link>
+          <div className="hidden md:block">
+            {isAuthed ? (
+              <form action="/api/auth/logout?next=/login" method="post">
+                <button type="submit" className="rounded-xl border border-red-400/25 bg-red-500/10 px-3 py-1.5 text-sm text-red-200 hover:bg-red-500/20 transition-colors">
+                  Odhlásit se
+                </button>
+              </form>
+            ) : (
+              <Link
+                href="/login"
+                className="rounded-xl border border-white/15 bg-white/5 px-3 py-1.5 text-sm text-dd-muted hover:text-dd-text hover:bg-white/10 transition-colors"
+              >
+                Přihlásit se
+              </Link>
+            )}
+          </div>
         </div>
       </header>
       <main className="flex-1">
-        <div className="mx-auto max-w-6xl px-4 py-8">{children}</div>
+        <div className="mx-auto max-w-6xl px-4 py-8 animate-[fadeIn_.35s_ease-out]">{children}</div>
       </main>
       <footer className="px-3 pb-3 pt-6">
         <div className="mx-auto flex max-w-6xl flex-col gap-2 rounded-2xl px-4 py-4 text-xs text-dd-muted dd-liquid-bar md:flex-row md:justify-between">

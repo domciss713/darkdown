@@ -1,6 +1,5 @@
 // lib/auth.ts
 import type { NextAuthOptions } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
@@ -57,10 +56,6 @@ export const authOptions: NextAuthOptions = {
         } as any;
       },
     }),
-    DiscordProvider({
-      clientId: process.env.DISCORD_CLIENT_ID!,
-      clientSecret: process.env.DISCORD_CLIENT_SECRET!
-    })
   ],
   callbacks: {
     async jwt({ token, user }) {
