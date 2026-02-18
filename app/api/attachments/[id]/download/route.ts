@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { isHelperUser } from "@/lib/access";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -32,10 +33,8 @@ export async function GET(
 
   if (!attachment) return new NextResponse("Not found", { status: 404 });
 
-  if (attachment.ticket.authorId !== userId) {
-    if (role !== "ADMIN" && role !== "STAFF") {
-      return new NextResponse("Forbidden", { status: 403 });
-    }
+  if (attachment.ticket.authorId !== userId && !isHelperUser(userId, role)) {
+    return new NextResponse("Forbidden", { status: 403 });
   }
 
   const { stream, contentType } = await getAttachmentStream(attachment.storageKey);

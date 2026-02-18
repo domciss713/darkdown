@@ -1,11 +1,12 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { mcDisplayRole } from "@/lib/access";
 
 const roleBadge = (role: string) => {
   if (role === "OWNER") return "bg-purple-500/15 text-purple-300 ring-1 ring-purple-400/30";
@@ -15,22 +16,9 @@ const roleBadge = (role: string) => {
 };
 
 export default async function MePage() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("session")?.value;
-
-  if (!token) redirect("/login");
-
-  const secret = process.env.AUTH_SECRET;
-  if (!secret) redirect("/login");
-
-  let userId: string;
-
-  try {
-    const payload = jwt.verify(token, secret) as { userId: string };
-    userId = payload.userId;
-  } catch {
-    redirect("/login");
-  }
+  const session = await getServerSession(authOptions);
+  const userId = (session?.user as any)?.id as string | undefined;
+  if (!userId) redirect("/login");
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -48,7 +36,7 @@ export default async function MePage() {
       <div className="mx-auto max-w-3xl px-6 py-10">
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
           <div className="text-xl">/me</div>
-          <div className="mt-2 text-sm text-white/70">jwt ok, ale user v db nenalezen</div>
+          <div className="mt-2 text-sm text-white/70">Session validní, ale user v db nenalezen</div>
           <div className="mt-2 text-sm text-white/70">userId: {userId}</div>
         </div>
       </div>
@@ -56,7 +44,7 @@ export default async function MePage() {
   }
 
   const nick = user.minecraftNick || "Unknown";
-  const role = String(user.role || "USER");
+  const role = mcDisplayRole(String(user.role || "USER"), nick);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
