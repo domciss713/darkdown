@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { isAdminUser } from "@/lib/access";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
@@ -21,7 +22,8 @@ export default async function AdminPage() {
   if (!session?.user) redirect("/login");
 
   const role = (session.user as any).role as string;
-  if (role !== "ADMIN" && role !== "STAFF") {
+  const userId = (session.user as any).id as string;
+  if (!isAdminUser(userId, role)) {
     redirect("/");
   }
 

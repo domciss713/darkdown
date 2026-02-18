@@ -8,33 +8,32 @@ export type QueryStatus = {
   motd: string;
 };
 
+const FALLBACK_STATUS: QueryStatus = {
+  online: false,
+  players: 0,
+  maxPlayers: 0,
+  playerList: [],
+  motd: "offline",
+};
+
 export async function getQueryStatus(): Promise<QueryStatus> {
-  const host = process.env.QUERY_HOST!;
+  const host = process.env.QUERY_HOST;
+  if (!host) return FALLBACK_STATUS;
+
   const port = Number(process.env.QUERY_PORT ?? "25565");
-  const q = new Query(host, { port, timeout: 3000 });
 
   try {
+    const q = new Query(host, { port, timeout: 3000 });
     const full = (await q.fullStat()) as any;
+
     return {
       online: true,
-      players: Number(full.numplayers ?? 0),
-      maxPlayers: Number(full.maxplayers ?? 0),
-      playerList: Array.isArray(full.player_) ? full.player_ : [],
-      motd: String(full.hostname ?? "")
+      players: Number(full.numplayers ?? full.numPlayers ?? full.players ?? 0),
+      maxPlayers: Number(full.maxplayers ?? full.maxPlayers ?? 0),
+      playerList: Array.isArray(full.players) ? full.players : [],
+      motd: String(full.hostname ?? full.motd ?? ""),
     };
   } catch {
-    return {
-      online: false,
-      players: 0,
-      maxPlayers: 0,
-      playerList: [],
-      motd: ""
-    };
-  } finally {
-    try {
-      q.close();
-    } catch {
-      // ignore
-    }
+    return FALLBACK_STATUS;
   }
 }
