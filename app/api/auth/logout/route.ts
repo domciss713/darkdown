@@ -16,5 +16,21 @@ export async function POST(req: Request) {
     domain: process.env.NODE_ENV === "production" ? ".darkdown.xyz" : undefined,
   });
 
+  res.cookies.set("next-auth.session-token", "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 0,
+  });
+
+  res.cookies.set("__Secure-next-auth.session-token", "", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 0,
+  });
+
   return res;
 }
