@@ -53,6 +53,7 @@ export async function POST(
       ticketCode: ticket.code,
       ticketSubject: ticket.subject,
       byStaff: true,
+      replyBody: parsed.data.body,
     });
   } else {
     const recipients = getTicketStaffRecipientList();
@@ -62,6 +63,7 @@ export async function POST(
         ticketCode: ticket.code,
         ticketSubject: ticket.subject,
         byStaff: false,
+        replyBody: parsed.data.body,
       });
     }
   }

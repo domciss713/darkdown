@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { isHelperUser } from "@/lib/access";
+import { isHelperUser, pickAssignedHelperId } from "@/lib/access";
 
 async function getTicketQueue() {
   return prisma.ticket.findMany({
@@ -26,6 +26,11 @@ export default async function HelpersPage() {
 
   const queue = await getTicketQueue();
 
+  const myQueue = queue.filter((t) => {
+    const assigned = pickAssignedHelperId(t.code);
+    return assigned ? assigned === userId : true;
+  });
+
   return (
     <div className="space-y-6">
       <div>
@@ -38,17 +43,18 @@ export default async function HelpersPage() {
       <Card>
         <h2 className="text-lg font-semibold mb-3">Aktivní ticket fronta</h2>
         <div className="space-y-2 text-sm">
-          {queue.length === 0 ? (
+          {myQueue.length === 0 ? (
             <p className="text-dd-muted">Žádné otevřené tickety.</p>
           ) : (
-            queue.map((t) => (
+            myQueue.map((t) => (
               <Link key={t.id} href={`/tickets/${t.id}`}>
                 <div className="flex items-center justify-between rounded-xl border border-white/10 bg-black/30 p-3 hover:border-dd-accent/60 transition-colors">
                   <div>
                     <p className="font-medium">{t.subject}</p>
                     <p className="text-xs text-dd-muted">
-                      #{t.code} · {t.author.minecraftNick} ({t.author.email})
+                      #{t.code} · {t.author.minecraftNick}
                     </p>
+                    <p className="text-[11px] text-dd-muted">Přiřazeno: {pickAssignedHelperId(t.code) ?? "volně"}</p>
                   </div>
                   <Badge color={t.status === "open" ? "green" : "yellow"}>{t.status}</Badge>
                 </div>

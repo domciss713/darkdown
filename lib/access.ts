@@ -26,3 +26,16 @@ export function mcDisplayRole(role: string, minecraftNick: string): string {
   if (role === "USER" && vipNicks.includes(minecraftNick.toLowerCase())) return "VIP";
   return role;
 }
+
+export function pickAssignedHelperId(ticketCode: string): string | null {
+  const helpers = parseIdList(process.env.HELPER_USER_IDS);
+  if (helpers.length === 0) return null;
+  const sum = ticketCode.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+  return helpers[sum % helpers.length] ?? null;
+}
+
+export function firstWords(text: string, words = 20): string {
+  const parts = text.trim().split(/\s+/).filter(Boolean);
+  if (parts.length <= words) return text.trim();
+  return parts.slice(0, words).join(" ") + "…";
+}

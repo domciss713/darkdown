@@ -31,7 +31,10 @@ export default async function AdminPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-semibold">Admin tickets</h1>
+      <div className="flex items-center justify-between gap-3">
+        <h1 className="text-3xl font-semibold">Admin tickets</h1>
+        <a href="/admin/team" className="rounded-xl border border-white/15 bg-white/5 px-3 py-1.5 text-sm hover:bg-white/10">Správa helperů</a>
+      </div>
       <Card>
         <div className="space-y-2 text-sm">
           {tickets.map((t) => (
@@ -40,7 +43,7 @@ export default async function AdminPage() {
                 <div>
                   <p className="font-medium">{t.subject}</p>
                   <p className="text-xs text-dd-muted">
-                    {t.category} · {t.author.name ?? t.author.email}
+                    {t.category} · {t.author.minecraftNick ?? t.author.name ?? "hráč"}
                   </p>
                 </div>
                 <Badge

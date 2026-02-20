@@ -60,13 +60,16 @@ export async function POST(req: Request) {
         }
       }
     },
-    include: { author: { select: { email: true } } }
+    include: { author: { select: { email: true, minecraftNick: true } } }
   });
 
   await sendTicketCreatedEmail({
     ticketCode: ticket.code,
     ticketSubject: ticket.subject,
+    ticketCategory: ticket.category,
+    body: parsed.data.body,
     authorEmail: ticket.author.email,
+    authorNick: ticket.author.minecraftNick,
   });
 
   return NextResponse.json(ticket, { status: 201 });
