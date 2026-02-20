@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import Image from "next/image";
 
 const staff = [
-  { name: "Domiprd", role: "Owner", discord: "@domiprdiik", avatar: "Domiprd" },
+  { name: "Domiprd", role: "OWNER", discord: "@domiprdiik", avatar: "Domiprd" },
   { name: "LukasRandom", role: "Admin", discord: "@cocacolaguy", avatar: "Steve" },
   { name: "AllwEx_99", role: "Co-Owner", discord: "@allw3x", avatar: "38306024-e641-4371-80b7-8fdd10c7a6db" }
 ];
@@ -40,7 +40,7 @@ const youtubers = [
 
 
 const getRoleColor = (role: string) =>
-  role === "Owner"
+  role === "OWNER"
     ? "text-purple-400"
     : role === "Co-Owner"
     ? "text-fuchsia-400"
@@ -62,7 +62,7 @@ const getRoleColor = (role: string) =>
 
 
 const getRoleGlow = (role: string) =>
-  role === "Owner"
+  role === "OWNER"
     ? "hover:shadow-purple-500/40"
     : role === "Co-Owner"
     ? "hover:shadow-fuchsia-500/40"
@@ -108,8 +108,8 @@ export default function StaffPage() {
                 {m.role}
             </Card>
 
-            <div className={`rounded-full px-3 py-1 text-xs font-semibold ${roleBadge(role)}`}>
-            {role}
+            <div className={`rounded-full px-3 py-1 text-xs font-semibold ${roleBadge(m.role)}`}>
+            {m.role}
             </div>
 
 
