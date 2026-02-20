@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
 
@@ -82,6 +83,10 @@ const getRoleGlow = (role: string) =>
     :"";
 
 
+const roleBadge = (role: string) => {
+  if (role === "OWNER") return "bg-purple-500/15 text-purple-300 ring-1 ring-purple-400/30";
+  if (role === "ADMIN") return "bg-red-500/15 text-red-300 ring-1 ring-red-400/30";
+
 
 export default function StaffPage() {
   return (
@@ -101,6 +106,13 @@ export default function StaffPage() {
               className={`text-sm font-bold ${getRoleColor(m.role)}`}>
                 {m.role}
             </Card>
+
+            <div className={`rounded-full px-3 py-1 text-xs font-semibold ${roleBadge(role)}`}>
+            {role}
+            </div>
+
+
+
             <p className="text-xs text-dd-muted mt-2">
                Discord {m.discord}
             </p>
