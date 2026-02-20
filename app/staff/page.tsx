@@ -86,6 +86,7 @@ const getRoleGlow = (role: string) =>
 const roleBadge = (role: string) => {
   if (role === "OWNER") return "bg-purple-500/15 text-purple-300 ring-1 ring-purple-400/30";
   if (role === "ADMIN") return "bg-red-500/15 text-red-300 ring-1 ring-red-400/30";
+}
 
 
 export default function StaffPage() {
