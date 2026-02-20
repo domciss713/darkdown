@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export function middleware(req: NextRequest) {
-  const token = req.cookies.get("session")?.value;
+export async function middleware(req: NextRequest) {
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET,
+  });
 
   if (!token) {
     const url = req.nextUrl.clone();
@@ -21,5 +25,7 @@ export const config = {
     "/account/:path*",
     "/panel/:path*",
     "/settings/:path*",
+    "/admin/:path*",
+    "/helpers/:path*",
   ],
 };
