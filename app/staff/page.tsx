@@ -98,7 +98,7 @@ export default function StaffPage() {
             <div className="flex flex-col gap-1">
             <p className="text-lg font-semibold">{m.name}</p>
             <Card
-              className={`text-sm font-semibold ${getRoleColor(m.role)}`}>
+              className={`text-sm font-bold ${getRoleColor(m.role)}`}>
                 {m.role}
             </Card>
             <p className="text-xs text-dd-muted mt-2">
