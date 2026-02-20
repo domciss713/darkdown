@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import Image from "next/image";
 
 const staff = [
-  { name: "Domiprd", role: "OWNER", discord: "@domiprdiik", avatar: "Domiprd" },
+  { name: "Domiprd", role: "Owner", discord: "@domiprdiik", avatar: "Domiprd" },
   { name: "LukasRandom", role: "Admin", discord: "@cocacolaguy", avatar: "Steve" },
   { name: "AllwEx_99", role: "Co-Owner", discord: "@allw3x", avatar: "38306024-e641-4371-80b7-8fdd10c7a6db" }
 ];
@@ -40,7 +40,7 @@ const youtubers = [
 
 
 const getRoleColor = (role: string) =>
-  role === "OWNER"
+  role === "Owner"
     ? "text-purple-400"
     : role === "Co-Owner"
     ? "text-fuchsia-400"
@@ -62,7 +62,7 @@ const getRoleColor = (role: string) =>
 
 
 const getRoleGlow = (role: string) =>
-  role === "OWNER"
+  role === "Owner"
     ? "hover:shadow-purple-500/40"
     : role === "Co-Owner"
     ? "hover:shadow-fuchsia-500/40"
@@ -84,8 +84,8 @@ const getRoleGlow = (role: string) =>
 
 
 const roleBadge = (role: string) => {
-  if (role === "OWNER") return "bg-purple-500/15 text-purple-300 ring-1 ring-purple-400/30";
-  if (role === "ADMIN") return "bg-red-500/15 text-red-300 ring-1 ring-red-400/30";
+  if (role === "Owner") return "bg-purple-500/15 text-purple-300 font-bold ring-1 ring-purple-400/30";
+  if (role === "Admin") return "bg-red-500/15 text-red-300 ring-1 ring-red-400/30";
 }
 
 
@@ -103,10 +103,7 @@ export default function StaffPage() {
           >
             <div className="flex flex-col gap-1">
             <p className="text-lg font-semibold">{m.name}</p>
-            <Card
-              className={`text-sm font-bold ${getRoleColor(m.role)}`}>
-                {m.role}
-            </Card>
+            
 
             <div className={`rounded-full px-3 py-1 text-xs font-semibold ${roleBadge(m.role)}`}>
             {m.role}
