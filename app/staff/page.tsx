@@ -105,7 +105,7 @@ export default function StaffPage() {
             <p className="text-lg font-semibold">{m.name}</p>
             
 
-            <div className={`rounded-full px-1 py-1 text-xs font-semibold ${roleBadge(m.role)}`}>
+            <div className={`rounded px-3 py-1 text-xs font-bold ${roleBadge(m.role)}`}>
             {m.role}
             </div>
 
