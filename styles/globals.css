@@ -19,3 +19,24 @@ body {
 .dd-glass {
   @apply bg-dd-panel/60 backdrop-blur-glass border border-white/5 shadow-dd rounded-2xl;
 }
+
+.dd-liquid-bar {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.22), rgba(167, 139, 250, 0.12));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px) saturate(130%);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+.dd-auth-shell {
+  @apply mx-auto w-full max-w-md rounded-3xl border border-white/15 bg-black/35 p-6 shadow-dd backdrop-blur-xl;
+}
+
+.dd-input {
+  @apply w-full rounded-xl border border-white/15 bg-black/35 px-3 py-2 text-sm text-white outline-none transition focus:border-dd-accent/70 focus:bg-black/55;
+}

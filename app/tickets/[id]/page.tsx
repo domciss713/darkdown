@@ -5,8 +5,9 @@ import { prisma } from "@/lib/prisma";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TicketReplyForm } from "./reply-form";
+import { isHelperUser } from "@/lib/access";
 
-async function getTicket(id: string, userId: string) {
+async function getTicket(id: string, userId: string, canViewAll: boolean) {
   const t = await prisma.ticket.findUnique({
     where: { id },
     include: {
@@ -19,7 +20,7 @@ async function getTicket(id: string, userId: string) {
     }
   });
   if (!t) return null;
-  if (t.authorId !== userId) return null;
+  if (!canViewAll && t.authorId !== userId) return null;
   return t;
 }
 
@@ -38,7 +39,10 @@ export default async function TicketDetailPage({
   if (!session?.user) redirect("/login");
 
   const userId = (session.user as any).id as string;
-  const ticket = await getTicket(id, userId);
+  const role = (session.user as any).role as string;
+  const canViewAll = isHelperUser(userId, role);
+
+  const ticket = await getTicket(id, userId, canViewAll);
   if (!ticket) notFound();
 
   return (
