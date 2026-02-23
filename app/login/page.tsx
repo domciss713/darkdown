@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 
 declare global {
@@ -13,8 +14,8 @@ export default function LoginPage() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState<string>("");
-
   const [turnstileToken, setTurnstileToken] = useState<string>("");
+
   const widgetRef = useRef<HTMLDivElement | null>(null);
   const widgetIdRef = useRef<string | null>(null);
 
@@ -35,38 +36,33 @@ export default function LoginPage() {
     e.preventDefault();
     setMsg("");
 
-    if (!turnstileToken) {
+    if (process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken) {
       setMsg("potvrd turnstile");
       return;
     }
 
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ identifier, password, turnstileToken }),
+    const next = getNext();
+    const result = await signIn("credentials", {
+      identifier,
+      password,
+      turnstileToken,
+      redirect: false,
+      callbackUrl: next,
     });
 
-    const data = await res.json();
-
-    if (data.ok) {
-      window.location.assign(getNext());
+    if (result?.ok) {
+      window.location.assign(next);
       return;
-    } else {
-      setMsg("error: " + (data.error || "unknown"));
-      setTurnstileToken("");
-      try {
-        if (window.turnstile && widgetIdRef.current) window.turnstile.reset(widgetIdRef.current);
-      } catch {}
     }
+
+    setMsg("error: invalid credentials");
+    setTurnstileToken("");
+    if (window.turnstile && widgetIdRef.current) window.turnstile.reset(widgetIdRef.current);
   }
 
   useEffect(() => {
     const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
-    if (!siteKey) {
-      setMsg("chybi NEXT_PUBLIC_TURNSTILE_SITE_KEY");
-      return;
-    }
+    if (!siteKey) return;
 
     const ensureScript = () =>
       new Promise<void>((resolve, reject) => {
@@ -86,8 +82,7 @@ export default function LoginPage() {
     (async () => {
       try {
         await ensureScript();
-        if (!widgetRef.current) return;
-        if (widgetIdRef.current) return;
+        if (!widgetRef.current || widgetIdRef.current) return;
 
         widgetIdRef.current = window.turnstile.render(widgetRef.current, {
           sitekey: siteKey,
@@ -109,7 +104,7 @@ export default function LoginPage() {
         <br />
         <input placeholder="heslo" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <br />
-        <div ref={widgetRef} style={{ margin: "16px 0" }} />
+        {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ? <div ref={widgetRef} style={{ margin: "16px 0" }} /> : null}
         <Button variant="primary" type="submit">přihlásit</Button>
       </form>
       <p>{msg}</p>

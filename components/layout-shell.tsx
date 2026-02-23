@@ -1,5 +1,9 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { SessionKeepalive } from "@/components/session-keepalive";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { AuthNavButton } from "@/components/auth-nav-button";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -14,9 +18,12 @@ const navLinks = [
   { href: "/map", label: "Map" }
 ];
 
-export function LayoutShell({ children }: { children: ReactNode }) {
+export async function LayoutShell({ children }: { children: ReactNode }) {
+  const session = await getServerSession(authOptions);
+
   return (
     <div className="min-h-screen dd-gradient-bg flex flex-col">
+      <SessionKeepalive />
       <header className="sticky top-0 z-30 border-b border-white/5 bg-black/40 backdrop-blur-glass">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <Link
@@ -36,12 +43,7 @@ export function LayoutShell({ children }: { children: ReactNode }) {
               </Link>
             ))}
           </nav>
-          <Link
-            href="/login"
-            className="text-sm text-dd-muted hover:text-dd-text"
-          >
-            Login
-          </Link>
+          <AuthNavButton loggedIn={!!session?.user} />
         </div>
       </header>
       <main className="flex-1">
