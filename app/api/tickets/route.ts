@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { ticketCreateSchema } from "@/lib/validation";
 import { getQueryStatus } from "@/lib/query";
+import { sendTicketCreatedEmail } from "@/lib/mailer";
 
 function generateCode() {
   return Math.random().toString(36).slice(2, 8).toUpperCase();
@@ -58,7 +59,17 @@ export async function POST(req: Request) {
           mspt: null
         }
       }
-    }
+    },
+    include: { author: { select: { email: true, minecraftNick: true } } }
+  });
+
+  await sendTicketCreatedEmail({
+    ticketCode: ticket.code,
+    ticketSubject: ticket.subject,
+    ticketCategory: ticket.category,
+    body: parsed.data.body,
+    authorEmail: ticket.author.email,
+    authorNick: ticket.author.minecraftNick,
   });
 
   return NextResponse.json(ticket, { status: 201 });

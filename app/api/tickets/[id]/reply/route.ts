@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { ticketReplySchema } from "@/lib/validation";
+import { getTicketStaffRecipientList, sendTicketReplyEmail } from "@/lib/mailer";
+import { isHelperUser } from "@/lib/access";
 
 export async function POST(
   req: Request,
@@ -22,14 +24,15 @@ export async function POST(
   }
 
   const userId = (session.user as any).id as string;
+  const role = (session.user as any).role as string;
 
   const ticket = await prisma.ticket.findUnique({
-    where: { id }
+    where: { id },
+    include: { author: { select: { email: true } } }
   });
   if (!ticket) return new NextResponse("Not found", { status: 404 });
 
-  const role = (session.user as any).role as string;
-  const isStaff = role === "ADMIN" || role === "STAFF";
+  const isStaff = isHelperUser(userId, role);
 
   if (!isStaff && ticket.authorId !== userId) {
     return new NextResponse("Forbidden", { status: 403 });
@@ -43,6 +46,27 @@ export async function POST(
       byStaff: isStaff
     }
   });
+
+  if (isStaff) {
+    await sendTicketReplyEmail({
+      to: ticket.author.email,
+      ticketCode: ticket.code,
+      ticketSubject: ticket.subject,
+      byStaff: true,
+      replyBody: parsed.data.body,
+    });
+  } else {
+    const recipients = getTicketStaffRecipientList();
+    if (recipients.length > 0) {
+      await sendTicketReplyEmail({
+        to: recipients.join(","),
+        ticketCode: ticket.code,
+        ticketSubject: ticket.subject,
+        byStaff: false,
+        replyBody: parsed.data.body,
+      });
+    }
+  }
 
   return NextResponse.json(msg, { status: 201 });
 }
