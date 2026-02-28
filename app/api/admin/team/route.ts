@@ -40,5 +40,5 @@ export async function POST(req: Request) {
   });
 
   const target = url.searchParams.get("next") || "/admin/team";
-  return NextResponse.redirect(new URL(target, url.origin));
+  return NextResponse.redirect(new URL(target, url.origin), { status: 303 });
 }

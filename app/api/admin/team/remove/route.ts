@@ -18,5 +18,5 @@ export async function POST(req: Request) {
 
   await prisma.user.update({ where: { id }, data: { role: "USER" } });
   const target = url.searchParams.get("next") || "/admin/team";
-  return NextResponse.redirect(new URL(target, url.origin));
+  return NextResponse.redirect(new URL(target, url.origin), { status: 303 });
 }

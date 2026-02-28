@@ -43,7 +43,7 @@ export default async function AdminPage() {
                 <div>
                   <p className="font-medium">{t.subject}</p>
                   <p className="text-xs text-dd-muted">
-                    {t.category} · {t.author.minecraftNick ?? t.author.name ?? "hráč"}
+                    {t.category} · {t.author.minecraftNick ?? t.author.name ?? "hráč"} ({t.author.email})
                   </p>
                 </div>
                 <Badge

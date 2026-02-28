@@ -41,6 +41,7 @@ export default async function TicketDetailPage({
   const userId = (session.user as any).id as string;
   const role = (session.user as any).role as string;
   const canViewAll = isHelperUser(userId, role);
+  const canSeeEmail = role === "ADMIN";
 
   const ticket = await getTicket(id, userId, canViewAll);
   if (!ticket) notFound();
@@ -53,6 +54,11 @@ export default async function TicketDetailPage({
           <p className="text-xs text-dd-muted">
             Code {ticket.code} · {ticket.category}
           </p>
+          {canViewAll ? (
+            <p className="text-xs text-dd-muted">
+              Autor: {ticket.author.minecraftNick}{canSeeEmail ? ` (${ticket.author.email})` : ""}
+            </p>
+          ) : null}
         </div>
         <Badge
           color={
@@ -78,7 +84,7 @@ export default async function TicketDetailPage({
               >
                 <div className="flex items-center justify-between mb-1">
                   <span className="font-medium">
-                    {m.author.name ?? m.author.email ?? "User"}
+                    {m.author.minecraftNick ?? m.author.name ?? "Hráč"}
                   </span>
                   <span className="text-xs text-dd-muted">
                     {m.createdAt.toLocaleString()}
