@@ -33,7 +33,10 @@ export default async function AdminPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-3">
         <h1 className="text-3xl font-semibold">Admin tickets</h1>
-        <a href="/admin/team" className="rounded-xl border border-white/15 bg-white/5 px-3 py-1.5 text-sm hover:bg-white/10">Správa helperů</a>
+        <div className="flex gap-2">
+          <a href="/admin/team" className="rounded-xl border border-white/15 bg-white/5 px-3 py-1.5 text-sm hover:bg-white/10">Správa helperů</a>
+          <a href="/team" className="rounded-xl border border-white/15 bg-white/5 px-3 py-1.5 text-sm hover:bg-white/10">Správa týmů</a>
+        </div>
       </div>
       <Card>
         <div className="space-y-2 text-sm">

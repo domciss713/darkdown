@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 import { isAdminUser } from "@/lib/access";
-import { removeHelperForUser } from "@/lib/team";
+import { removeTeamMember } from "@/lib/team";
 
 export async function POST(req: Request) {
   const url = new URL(req.url);
@@ -17,8 +16,8 @@ export async function POST(req: Request) {
   const id = String(form.get("id") || "");
   if (!id) return new NextResponse("Missing id", { status: 400 });
 
-  await prisma.user.update({ where: { id }, data: { role: "USER" } });
-  await removeHelperForUser(id);
-  const target = url.searchParams.get("next") || "/admin/team";
+  await removeTeamMember(id);
+
+  const target = url.searchParams.get("next") || "/team";
   return NextResponse.redirect(new URL(target, url.origin), { status: 303 });
 }

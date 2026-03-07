@@ -27,5 +27,6 @@ export const config = {
     "/settings/:path*",
     "/admin/:path*",
     "/helpers/:path*",
+    "/team/:path*",
   ],
 };

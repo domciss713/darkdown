@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
+import { listTeamMembers, type TeamMember } from "@/lib/team";
 
 type Member = { name: string; role: string; discord: string; avatar: string; summary?: string };
 
@@ -8,13 +9,6 @@ const leadership: Member[] = [
   { name: "LukasRandom", role: "Admin", discord: "@cocacolaguy", avatar: "Steve", summary: "Provoz serveru, dohled nad podporou." },
   { name: "AllwEx_99", role: "Co-Owner", discord: "@allw3x", avatar: "38306024-e641-4371-80b7-8fdd10c7a6db", summary: "Spoluřízení komunity a eventů." }
 ];
-
-const helpers: Member[] = [];
-const builders: Member[] = [];
-const developers: Member[] = [];
-const eventers: Member[] = [];
-const technicians: Member[] = [];
-const creators: Member[] = [];
 
 const getRoleColor = (role: string) =>
   role === "Owner"
@@ -95,7 +89,25 @@ function TeamSection({ title, members, openRole }: { title: string; members: Mem
   );
 }
 
-export default function StaffPage() {
+function toMember(team: TeamMember): Member {
+  return {
+    name: team.minecraftNick,
+    role: team.role,
+    discord: team.discord || "neuvedeno",
+    avatar: team.minecraftNick,
+  };
+}
+
+export default async function StaffPage() {
+  const team = await listTeamMembers();
+
+  const helpers = team.filter((m) => m.role === "Helper").map(toMember);
+  const builders = team.filter((m) => m.role === "Builder").map(toMember);
+  const developers = team.filter((m) => m.role === "Developer").map(toMember);
+  const eventers = team.filter((m) => m.role === "Eventer").map(toMember);
+  const technicians = team.filter((m) => m.role === "Technician").map(toMember);
+  const creators = team.filter((m) => m.role === "Creator" || m.role === "Youtuber").map(toMember);
+
   return (
     <div className="space-y-8">
       <TeamSection title="Vedení serveru" members={leadership} openRole="Leadership" />

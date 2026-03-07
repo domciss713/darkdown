@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 import { isAdminUser } from "@/lib/access";
-import { upsertTeamMember } from "@/lib/team";
+import { TEAM_ROLES, listTeamMembers, upsertTeamMember } from "@/lib/team";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -12,13 +11,7 @@ export async function GET() {
   const role = (session.user as any).role as string;
   if (!isAdminUser(userId, role)) return new NextResponse("Forbidden", { status: 403 });
 
-  const users = await prisma.user.findMany({
-    where: { role: { in: ["STAFF", "ADMIN"] } },
-    select: { id: true, minecraftNick: true, email: true, role: true },
-    orderBy: { createdAt: "desc" }
-  });
-
-  return NextResponse.json(users);
+  return NextResponse.json(await listTeamMembers());
 }
 
 export async function POST(req: Request) {
@@ -30,32 +23,22 @@ export async function POST(req: Request) {
   if (!isAdminUser(userId, role)) return new NextResponse("Forbidden", { status: 403 });
 
   const form = await req.formData();
+  const minecraftNick = String(form.get("minecraftNick") || "").trim();
   const email = String(form.get("email") || "").toLowerCase().trim();
-  const minecraftNick = String(form.get("minecraftNick") || "").toLowerCase().trim();
+  const discord = String(form.get("discord") || "").trim();
+  const selectedRole = String(form.get("role") || "").trim();
 
-  if (!email && !minecraftNick) return new NextResponse("Missing identifier", { status: 400 });
-
-  await prisma.user.updateMany({
-    where: email ? { email } : { minecraftNick },
-    data: { role: "STAFF" }
-  });
-
-
-  const user = await prisma.user.findFirst({
-    where: email ? { email } : { minecraftNick },
-    select: { id: true, minecraftNick: true, email: true },
-  });
-
-  if (user) {
-    await upsertTeamMember({
-      userId: user.id,
-      minecraftNick: user.minecraftNick,
-      email: user.email,
-      role: "Helper",
-      discord: null,
-    });
+  if (!minecraftNick || !TEAM_ROLES.includes(selectedRole as any)) {
+    return new NextResponse("Invalid payload", { status: 400 });
   }
 
-  const target = url.searchParams.get("next") || "/admin/team";
+  await upsertTeamMember({
+    minecraftNick,
+    email: email || null,
+    discord: discord || null,
+    role: selectedRole as any,
+  });
+
+  const target = url.searchParams.get("next") || "/team";
   return NextResponse.redirect(new URL(target, url.origin), { status: 303 });
 }
